@@ -1,0 +1,4 @@
+include ':AndroidApp', ':common'
+rootProject.name = 'Mifos Open banking'
+
+enableFeaturePreview('GRADLE_METADATA')

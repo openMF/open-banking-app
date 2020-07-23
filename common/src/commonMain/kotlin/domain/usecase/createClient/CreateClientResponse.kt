@@ -1,0 +1,3 @@
+package domain.usecase.createClient
+
+class CreateClientResponse
