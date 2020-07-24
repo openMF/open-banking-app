@@ -15,7 +15,7 @@ import org.mifos.openbanking.common.viewModel.model.AccountModel
 class AccountViewModel : BaseViewModel() {
 
     // LIVE DATA
-    val accountStateLiveData = MutableLiveData<AccountState>(LoadingAuthState)
+    val accountStateLiveData = MutableLiveData<AccountState>(LoadingAccountState)
 
     // USE CASE
     private val fetchAccountsUseCase by KodeinInjector.instance<FetchAccountsUseCase>()
@@ -27,17 +27,35 @@ class AccountViewModel : BaseViewModel() {
         val response = fetchAccountsUseCase.execute(request)
 
         if (response is Response.Success) {
-            val accountModelList : MutableList<AccountModel> = mutableListOf()
+            val accountModelList: MutableList<AccountModel> = mutableListOf()
             for (account in response.data.accounts)
                 accountModelList.add(AccountModel(account.accountId, account.bankId))
             userModel.accounts = accountModelList
 
-            val response2 = fetchBalancesUseCase.execute(FetchBalancesRequest("rbs", userModel.token))
-
-            accountStateLiveData.postValue(SuccessAuthState)
+            accountStateLiveData.postValue(SuccessAccountState(accountModelList))
         } else if (response is Response.Error) {
-            accountStateLiveData.postValue(ErrorAuthState(response.message))
+            accountStateLiveData.postValue(ErrorAccountState(response.message))
         }
+    }
+
+    fun fetchBalances() = launchSilent(coroutineContext, exceptionHandler, job) {
+        for (account in userModel.accounts!!) {
+            val response =
+                fetchBalancesUseCase.execute(FetchBalancesRequest(account.bankId, userModel.token))
+            if (response is Response.Success) {
+                for (accountBalances in response.data.accountBalances) {
+                    if (account.accountId == accountBalances.accountId) {
+                        account.balance = accountBalances.amount
+                        account.currency = accountBalances.currency
+                    }
+                }
+            } else if (response is Response.Error) {
+                accountStateLiveData.postValue(ErrorAccountState(response.message))
+                return@launchSilent
+            }
+        }
+
+        accountStateLiveData.postValue(SuccessAccountState(userModel.accounts!!))
     }
 
 }

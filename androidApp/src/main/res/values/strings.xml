@@ -3,4 +3,9 @@
 
     <string name="demo_username">ankurs287@gmail.com</string>
     <string name="demo_password">Ankurs287@gmail.com</string>
+
+    <string name="title_activity_navigation">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

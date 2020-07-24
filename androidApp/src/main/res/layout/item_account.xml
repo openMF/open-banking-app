@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="account"
+            type="org.mifos.openbanking.common.viewModel.model.AccountModel" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp"
+            android:paddingRight="16dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_bank"
+                app:layout_constraintBottom_toBottomOf="@id/tv_bank_name"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_account_type" />
+
+            <TextView
+                android:id="@+id/tv_account_type"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Primary Account"
+                android:textColor="#DE000000"
+                android:textSize="10sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_bank_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/roboto"
+                android:text="@{account.bankId.toUpperCase()}"
+                android:textColor="#DE000000"
+                android:textSize="24sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_account_type" />
+
+            <TextView
+                android:id="@+id/tv_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@{`£ `+ String.valueOf(account.balance)}"
+                android:textColor="#155F09"
+                android:textSize="24sp"
+                android:visibility="@{account.balance == null ? View.GONE : View.VISIBLE}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_bank_name" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/action_button_1"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Transfer"
+                android:textAllCaps="true"
+                android:textAppearance="
+            @style/TextAppearance.MaterialComponents.Headline6"
+                android:textSize="15sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_balance" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/action_button_2"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:text="Transactions"
+                android:textAllCaps="true"
+                android:textAppearance="
+            @style/TextAppearance.MaterialComponents.Headline6"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@id/action_button_1"
+                app:layout_constraintStart_toEndOf="@id/action_button_1"
+                app:layout_constraintTop_toBottomOf="@id/action_button_1" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>
