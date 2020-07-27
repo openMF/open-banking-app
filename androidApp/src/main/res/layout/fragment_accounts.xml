@@ -20,10 +20,11 @@
             android:id="@+id/top_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:background="@drawable/top_bar_bg"
             android:orientation="vertical"
             android:paddingTop="15dp"
-            android:paddingBottom="35dp"
+            android:paddingBottom="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +48,19 @@
                 android:gravity="center"
                 android:text="£ -"
                 android:textColor="@color/white"
-                android:textSize="36sp" />
+                android:textSize="36sp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/tv_fetch_balances"
+                style="@style/WhiteOutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/roboto_bold"
+                android:onClick="@{clickHandler::onFetchBalancesClicked}"
+                android:text="Fetch Balances"
+                android:visibility="gone" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -56,28 +69,6 @@
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/top_bar" />
-
-        <TextView
-            android:id="@+id/tv_fetch_balances"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/round_100dp"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:fontFamily="@font/roboto_bold"
-            android:gravity="center"
-            android:onClick="@{clickHandler::onFetchBalancesClicked}"
-            android:paddingLeft="15dp"
-            android:paddingTop="10dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="10dp"
-            android:text="Fetch Balances"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

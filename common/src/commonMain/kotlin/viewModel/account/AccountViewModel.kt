@@ -55,7 +55,7 @@ class AccountViewModel : BaseViewModel() {
             }
         }
 
-        accountStateLiveData.postValue(SuccessAccountState(userModel.accounts!!))
+        accountStateLiveData.postValue(SuccessAccountState(userModel.accounts!!, true))
     }
 
 }

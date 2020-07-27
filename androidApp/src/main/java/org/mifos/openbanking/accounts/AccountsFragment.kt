@@ -13,13 +13,14 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import org.mifos.openbanking.R
 import org.mifos.openbanking.common.viewModel.account.*
-import org.mifos.openbanking.databinding.FragmentHomeBinding
+import org.mifos.openbanking.databinding.FragmentAccountsBinding
 import org.mifos.openbanking.utils.dpToPx
+import org.mifos.openbanking.utils.formatBalance
 
 class AccountsFragment : Fragment() {
 
     private lateinit var accountViewModel: AccountViewModel
-    private lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: FragmentAccountsBinding
     private val accountsAdapter = AccountsAdapter()
 
     override fun onCreateView(
@@ -30,7 +31,7 @@ class AccountsFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_home,
+            R.layout.fragment_accounts,
             container,
             false
         )
@@ -39,7 +40,7 @@ class AccountsFragment : Fragment() {
 
         binding.accountList.layoutManager =
             LinearLayoutManager(context)
-        binding.accountList.setHasFixedSize(true)
+        binding.accountList.setHasFixedSize(false)
         binding.accountList.addItemDecoration(AccountItemsDecoration())
         binding.accountList.adapter = accountsAdapter
 
@@ -57,13 +58,17 @@ class AccountsFragment : Fragment() {
         when (state) {
             is SuccessAccountState -> {
                 accountsAdapter.setAccountList(state.accountList)
-                var totalBalance = 0.0
-                for (account in state.accountList) {
-                    if (account.balance == null)
-                        break
-                    totalBalance += account.balance!!
-                    binding.tvTotalBalance.text = "£ $totalBalance"
+                if (state.balancesFetched) {
+                    var totalBalance = 0.0
+                    for (account in state.accountList) {
+                        totalBalance += account.balance!!
+                    }
+                    binding.tvTotalBalance.text = "£ ${formatBalance(totalBalance)}"
                     binding.tvFetchBalances.visibility = View.GONE
+                    binding.tvTotalBalance.visibility = View.VISIBLE
+                } else {
+                    binding.tvFetchBalances.visibility = View.VISIBLE
+                    binding.tvTotalBalance.visibility = View.GONE
                 }
             }
 
@@ -71,7 +76,6 @@ class AccountsFragment : Fragment() {
             }
 
             is ErrorAccountState -> {
-
             }
         }
     }

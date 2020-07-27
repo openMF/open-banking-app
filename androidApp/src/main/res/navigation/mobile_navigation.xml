@@ -9,7 +9,7 @@
         android:id="@+id/navigation_home"
         android:name="org.mifos.openbanking.accounts.AccountsFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_accounts" />
 
     <fragment
         android:id="@+id/navigation_dashboard"

@@ -5,6 +5,8 @@
 
         <import type="android.view.View" />
 
+        <import type="org.mifos.openbanking.utils.UtilsKt" />
+
         <variable
             name="account"
             type="org.mifos.openbanking.common.viewModel.model.AccountModel" />
@@ -21,6 +23,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:paddingLeft="16dp"
             android:paddingTop="16dp"
             android:paddingRight="16dp">
@@ -39,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/roboto_medium"
-                android:text="Primary Account"
+                android:text="Savings Account"
                 android:textColor="#DE000000"
                 android:textSize="10sp"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -63,15 +66,15 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto_medium"
-                android:text="@{`£ `+ String.valueOf(account.balance)}"
+                android:text="@{`£ `+ UtilsKt.formatBalance(account.balance)}"
                 android:textColor="#155F09"
                 android:textSize="24sp"
                 android:visibility="@{account.balance == null ? View.GONE : View.VISIBLE}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_bank_name" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/action_button_1"
+            <Button
+                android:id="@+id/btn_transfer"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,8 +86,8 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_balance" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/action_button_2"
+            <Button
+                android:id="@+id/btn_transactions"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -95,9 +98,9 @@
                 android:textAppearance="
             @style/TextAppearance.MaterialComponents.Headline6"
                 android:textSize="15sp"
-                app:layout_constraintBottom_toTopOf="@id/action_button_1"
-                app:layout_constraintStart_toEndOf="@id/action_button_1"
-                app:layout_constraintTop_toBottomOf="@id/action_button_1" />
+                app:layout_constraintBottom_toTopOf="@id/btn_transfer"
+                app:layout_constraintStart_toEndOf="@id/btn_transfer"
+                app:layout_constraintTop_toBottomOf="@id/btn_transfer" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
