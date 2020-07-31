@@ -13,6 +13,11 @@ fun dpToPx(dp: Float): Float {
 }
 
 private val fmt = DecimalFormat.getInstance(Locale("en", "US"))
-fun formatBalance(balance: Double): String? {
-    return fmt.format(balance)
+fun formatBalance(balance: Double, withCurrencySymbol: Boolean = false): String? {
+    val formatted = fmt.format(balance)
+    return if (withCurrencySymbol) {
+        "£ $formatted"
+    } else {
+        formatted
+    }
 }

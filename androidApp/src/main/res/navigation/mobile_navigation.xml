@@ -8,18 +8,18 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="org.mifos.openbanking.accounts.AccountsFragment"
-        android:label="@string/title_home"
+        android:label="@string/accounts"
         tools:layout="@layout/fragment_accounts" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="org.mifos.openbanking.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_transactions"
+        android:name="org.mifos.openbanking.transactions.TransactionsFragment"
+        android:label="@string/transactions"
+        tools:layout="@layout/fragment_transactions" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="org.mifos.openbanking.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:label="@string/notifications"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

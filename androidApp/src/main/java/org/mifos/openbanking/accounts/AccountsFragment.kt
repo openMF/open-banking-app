@@ -63,7 +63,7 @@ class AccountsFragment : Fragment() {
                     for (account in state.accountList) {
                         totalBalance += account.balance!!
                     }
-                    binding.tvTotalBalance.text = "£ ${formatBalance(totalBalance)}"
+                    binding.tvTotalBalance.text = formatBalance(totalBalance, true)
                     binding.tvFetchBalances.visibility = View.GONE
                     binding.tvTotalBalance.visibility = View.VISIBLE
                 } else {
