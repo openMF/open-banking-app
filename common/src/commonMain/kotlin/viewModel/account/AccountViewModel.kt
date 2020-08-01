@@ -28,9 +28,13 @@ class AccountViewModel : BaseViewModel() {
 
         if (response is Response.Success) {
             val accountModelList: MutableList<AccountModel> = mutableListOf()
-            for (account in response.data.accounts)
+            val banksConnected: MutableSet<String> = mutableSetOf()
+            for (account in response.data.accounts) {
                 accountModelList.add(AccountModel(account.accountId, account.bankId))
+                banksConnected.add(account.bankId)
+            }
             userModel.accounts = accountModelList
+            userModel.banksConnected = banksConnected
 
             accountStateLiveData.postValue(SuccessAccountState(accountModelList))
         } else if (response is Response.Error) {
@@ -39,14 +43,17 @@ class AccountViewModel : BaseViewModel() {
     }
 
     fun fetchBalances() = launchSilent(coroutineContext, exceptionHandler, job) {
-        for (account in userModel.accounts!!) {
+        for (bankId in userModel.banksConnected) {
             val response =
-                fetchBalancesUseCase.execute(FetchBalancesRequest(account.bankId, userModel.token))
+                fetchBalancesUseCase.execute(FetchBalancesRequest(bankId, userModel.token))
             if (response is Response.Success) {
                 for (accountBalances in response.data.accountBalances) {
-                    if (account.accountId == accountBalances.accountId) {
-                        account.balance = accountBalances.amount
-                        account.currency = accountBalances.currency
+                    val accountModel = userModel.accounts?.find { accountModel ->
+                        accountBalances.accountId == accountModel.accountId
+                    }
+                    if (accountModel != null) {
+                        accountModel.balance = accountBalances.amount
+                        accountModel.currency = accountBalances.currency
                     }
                 }
             } else if (response is Response.Error) {
