@@ -8,5 +8,6 @@
     <color name="colorPrimaryMedium">#DD5E5E</color>
     <color name="dark_grey">#DE000000</color>
     <color name="black">#000000</color>
+    <color name="colorPrimaryLight">#1FF44336</color>
 
 </resources>

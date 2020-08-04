@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import org.mifos.openbanking.R
 import org.mifos.openbanking.common.viewModel.account.*
 import org.mifos.openbanking.databinding.FragmentAccountsBinding
+import org.mifos.openbanking.transfer.TransferFragment
 import org.mifos.openbanking.utils.dpToPx
 import org.mifos.openbanking.utils.formatBalance
 
@@ -45,6 +46,8 @@ class AccountsFragment : Fragment() {
         binding.accountList.adapter = accountsAdapter
 
         initViewModel()
+
+        fragmentManager?.let { TransferFragment().show(it, "") }
 
         return binding.root
     }

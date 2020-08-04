@@ -27,6 +27,10 @@ class TransactionsFragment : Fragment() {
         )
         binding.lifecycleOwner = this
 
+//        binding.btnPay.setOnClickListener(View.OnClickListener {
+//            binding.transactions.visibility = View.VISIBLE
+//        })
+
         return binding.root
     }
 }

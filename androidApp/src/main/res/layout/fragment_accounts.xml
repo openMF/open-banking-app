@@ -17,7 +17,7 @@
         tools:context=".accounts.AccountsFragment">
 
         <LinearLayout
-            android:id="@+id/top_bar"
+            android:id="@+id/topBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
@@ -68,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/top_bar" />
+            app:layout_constraintTop_toBottomOf="@id/topBar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
