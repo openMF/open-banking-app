@@ -8,5 +8,6 @@ class MifosOpenBankingApplication : Application() {
         println("Application init")
 
         context = this
+        App.appLaunch()
     }
 }

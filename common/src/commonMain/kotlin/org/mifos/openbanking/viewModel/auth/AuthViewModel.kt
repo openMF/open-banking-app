@@ -7,8 +7,6 @@ import org.mifos.openbanking.coroutines.launchSilent
 import org.mifos.openbanking.data.datasources.disk.DiskDataSource
 import org.mifos.openbanking.data.datasources.network.CONSUMER_KEY
 import org.mifos.openbanking.di.KodeinInjector
-import org.mifos.openbanking.domain.usecase.fetchBanks.FetchBanksRequest
-import org.mifos.openbanking.domain.usecase.fetchBanks.FetchBanksUseCase
 import org.mifos.openbanking.domain.usecase.loginClient.LoginClientRequest
 import org.mifos.openbanking.domain.usecase.loginClient.LoginClientUseCase
 import org.mifos.openbanking.viewModel.base.BaseViewModel
@@ -22,7 +20,6 @@ class AuthViewModel : BaseViewModel() {
 
     // USE CASE
     private val loginClientUseCase by KodeinInjector.instance<LoginClientUseCase>()
-    private val fetchBanksUseCase by KodeinInjector.instance<FetchBanksUseCase>()
 
     private val diskDataSource by KodeinInjector.instance<DiskDataSource>()
 
@@ -49,8 +46,10 @@ class AuthViewModel : BaseViewModel() {
             val response = loginClientUseCase.execute(request)
 
             if (response is Response.Success) {
+                val userModel = userLiveData.getUserModel()
                 userModel.username = username
                 userModel.token = response.data.token
+                diskDataSource.saveUserModel(userModel)
                 authStateLiveData.postValue(SuccessAuthState)
             } else if (response is Response.Error) {
                 authStateLiveData.postValue(
@@ -61,17 +60,8 @@ class AuthViewModel : BaseViewModel() {
             }
         }
 
-    fun appStart() = launchSilent(
-        coroutineContext,
-        exceptionHandler,
-        job
-    ) {
-        val response =
-            fetchBanksUseCase.execute(FetchBanksRequest())
-    }
-
     fun isUserLoggedIn(): Boolean {
-        return false
+        return diskDataSource.isUserLoggedIn()
     }
 
 }

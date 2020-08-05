@@ -81,6 +81,9 @@ kotlin {
             // KTOR
             implementation "io.ktor:ktor-client-core:$ktor_version"
             implementation "io.ktor:ktor-client-auth-native:$ktor_version"
+
+            // Preferences
+            implementation "com.github.florent37:multiplatform-preferences:$preferences_version"
         }
 
         androidMain.dependencies {
@@ -101,6 +104,9 @@ kotlin {
 
             // SQL Delight
             implementation "com.squareup.sqldelight:android-driver:$sql_delight_version"
+
+            // Preferences
+            implementation "com.github.florent37:multiplatform-preferences-android:$preferences_version"
         }
 
         iosMain.dependencies {
@@ -117,6 +123,9 @@ kotlin {
 
             // SQL Delight
             implementation "com.squareup.sqldelight:native-driver:$sql_delight_version"
+
+            // Preferences
+            implementation "com.github.florent37:multiplatform-preferences-ios:$preferences_version"
         }
 
         commonTest.dependencies {

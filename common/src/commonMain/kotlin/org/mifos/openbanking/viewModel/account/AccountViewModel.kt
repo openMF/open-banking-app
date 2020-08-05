@@ -30,7 +30,7 @@ class AccountViewModel : BaseViewModel() {
     ) {
         val request =
             FetchAccountsRequest(
-                userModel.token
+                userLiveData.getUserModel().token
             )
 
         val response = fetchAccountsUseCase.execute(request)
@@ -48,6 +48,7 @@ class AccountViewModel : BaseViewModel() {
                 )
                 banksConnected.add(account.bankId)
             }
+            val userModel = userLiveData.getUserModel()
             userModel.accounts = accountModelList
             userModel.banksConnected = banksConnected
 
@@ -70,6 +71,7 @@ class AccountViewModel : BaseViewModel() {
         exceptionHandler,
         job
     ) {
+        val userModel = userLiveData.getUserModel()
         for (bankId in userModel.banksConnected) {
             val response =
                 fetchBalancesUseCase.execute(

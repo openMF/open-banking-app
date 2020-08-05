@@ -43,6 +43,7 @@ ext {
     kodeinVersion = "6.5.3"
     moko_mvvm_version = "0.6.0"
     mockk_version = "1.9.3"
+    preferences_version = "1.0.0"
 }
 
 task clean(type: Delete) {

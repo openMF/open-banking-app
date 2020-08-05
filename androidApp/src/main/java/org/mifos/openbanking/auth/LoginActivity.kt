@@ -22,6 +22,10 @@ class LoginActivity : AppCompatActivity() {
 
         configView()
         initViewModel()
+
+        if (authViewModel.isUserLoggedIn()) {
+            gotoNavigationActivity()
+        }
     }
 
     private fun configView() {
@@ -52,9 +56,15 @@ class LoginActivity : AppCompatActivity() {
 
     private fun onLoginSuccess() {
         binding.shimmerLogin.hideShimmer()
-        startActivity(Intent(this, NavigationActivity::class.java))
+        gotoNavigationActivity()
     }
 
+    private fun gotoNavigationActivity() {
+        val intent = Intent(this, NavigationActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+        finish()
+    }
 
     private fun onLoginError(message: String?) {
         binding.shimmerLogin.hideShimmer()
