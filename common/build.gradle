@@ -1,6 +1,7 @@
 apply plugin: 'org.jetbrains.kotlin.multiplatform'
 apply plugin: 'kotlinx-serialization'
 apply plugin: 'com.android.library'
+apply plugin: 'com.squareup.sqldelight'
 
 android {
     compileSdkVersion(29)
@@ -97,6 +98,9 @@ kotlin {
 
             // KTOR
             implementation "io.ktor:ktor-client-android:$ktor_version"
+
+            // SQL Delight
+            implementation "com.squareup.sqldelight:android-driver:$sql_delight_version"
         }
 
         iosMain.dependencies {
@@ -110,6 +114,9 @@ kotlin {
 
             // KTOR
             implementation "io.ktor:ktor-client-ios:$ktor_version"
+
+            // SQL Delight
+            implementation "com.squareup.sqldelight:native-driver:$sql_delight_version"
         }
 
         commonTest.dependencies {
@@ -117,6 +124,12 @@ kotlin {
             implementation kotlin('test-annotations-common')
             implementation "io.mockk:mockk:$mockk_version"
         }
+    }
+}
+
+sqldelight {
+    LocalDatabase {
+        packageName = "org.mifos.openbanking"
     }
 }
 

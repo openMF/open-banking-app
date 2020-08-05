@@ -7,9 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import org.mifos.openbanking.R
-import org.mifos.openbanking.common.viewModel.auth.*
 import org.mifos.openbanking.databinding.ActivityLoginBinding
 import org.mifos.openbanking.navigation.NavigationActivity
+import org.mifos.openbanking.viewModel.auth.*
 
 class LoginActivity : AppCompatActivity() {
 

@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import org.mifos.openbanking.R
-import org.mifos.openbanking.common.viewModel.account.*
 import org.mifos.openbanking.databinding.FragmentAccountsBinding
 import org.mifos.openbanking.transfer.TransferFragment
 import org.mifos.openbanking.utils.dpToPx
 import org.mifos.openbanking.utils.formatBalance
+import org.mifos.openbanking.viewModel.account.*
 
 class AccountsFragment : Fragment() {
 

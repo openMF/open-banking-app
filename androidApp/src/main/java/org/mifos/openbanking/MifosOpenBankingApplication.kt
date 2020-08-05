@@ -6,5 +6,7 @@ class MifosOpenBankingApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         println("Application init")
+
+        context = this
     }
 }

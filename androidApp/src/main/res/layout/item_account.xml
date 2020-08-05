@@ -9,7 +9,7 @@
 
         <variable
             name="account"
-            type="org.mifos.openbanking.common.viewModel.model.AccountModel" />
+            type="org.mifos.openbanking.viewModel.model.AccountModel" />
 
     </data>
 

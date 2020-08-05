@@ -1,0 +1,11 @@
+CREATE TABLE AccountModel (
+    accoundId TEXT NOT NULL,
+    bankId TEXT NOT NULL
+);
+
+insertItem:
+INSERT OR FAIL INTO AccountModel(accoundId, bankId) VALUES (?, ?);
+
+selectAll:
+SELECT *
+FROM AccountModel;

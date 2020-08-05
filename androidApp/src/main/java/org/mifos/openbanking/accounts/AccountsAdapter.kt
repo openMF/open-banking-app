@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.mifos.openbanking.R
-import org.mifos.openbanking.common.viewModel.model.AccountModel
 import org.mifos.openbanking.databinding.ItemAccountBinding
+import org.mifos.openbanking.viewModel.model.AccountModel
 
 class AccountsAdapter :
     RecyclerView.Adapter<AccountsAdapter.ViewHolder>() {
