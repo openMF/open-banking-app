@@ -1,14 +1,17 @@
 package org.mifos.openbanking.accounts
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import org.mifos.openbanking.R
 import org.mifos.openbanking.databinding.ItemAccountBinding
+import org.mifos.openbanking.transfer.TransferFragment
 import org.mifos.openbanking.viewModel.model.AccountModel
 
-class AccountsAdapter :
+class AccountsAdapter(private val supportFragmentManager: FragmentManager) :
     RecyclerView.Adapter<AccountsAdapter.ViewHolder>() {
 
     private var accountList: List<AccountModel> = emptyList()
@@ -37,11 +40,20 @@ class AccountsAdapter :
         return accountList.size
     }
 
-    class ViewHolder(private val binding: ItemAccountBinding) :
+    inner class ViewHolder(private val binding: ItemAccountBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.clickHandler = this
+        }
 
         fun bindItems(account: AccountModel) {
             binding.account = account
         }
+
+        fun onTransferClicked(view: View) {
+            TransferFragment().show(this@AccountsAdapter.supportFragmentManager, "")
+        }
+
     }
 }

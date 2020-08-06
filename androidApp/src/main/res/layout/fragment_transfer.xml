@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+
+        <variable
+            name="clickHandler"
+            type="org.mifos.openbanking.transfer.TransferFragment" />
+
+    </data>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/transferLayout"
         android:layout_width="match_parent"
@@ -102,6 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="10dp"
+                android:onClick="@{clickHandler::onCancelClicked}"
                 android:layout_weight="3"
                 android:fontFamily="@font/roboto_bold"
                 android:text="@string/cancel"

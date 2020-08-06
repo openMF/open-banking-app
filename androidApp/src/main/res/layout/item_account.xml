@@ -11,6 +11,10 @@
             name="account"
             type="org.mifos.openbanking.viewModel.model.AccountModel" />
 
+        <variable
+            name="clickHandler"
+            type="org.mifos.openbanking.accounts.AccountsAdapter.ViewHolder" />
+
     </data>
 
     <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -83,6 +87,7 @@
                 android:textAppearance="
             @style/TextAppearance.MaterialComponents.Headline6"
                 android:textSize="15sp"
+                android:onClick="@{clickHandler::onTransferClicked}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_balance" />
 

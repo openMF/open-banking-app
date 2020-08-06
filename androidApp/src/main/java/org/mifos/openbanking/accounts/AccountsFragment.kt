@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import org.mifos.openbanking.R
 import org.mifos.openbanking.databinding.FragmentAccountsBinding
-import org.mifos.openbanking.transfer.TransferFragment
 import org.mifos.openbanking.utils.dpToPx
 import org.mifos.openbanking.utils.formatBalance
 import org.mifos.openbanking.viewModel.account.*
@@ -22,7 +21,7 @@ class AccountsFragment : Fragment() {
 
     private lateinit var accountViewModel: AccountViewModel
     private lateinit var binding: FragmentAccountsBinding
-    private val accountsAdapter = AccountsAdapter()
+    private lateinit var accountsAdapter: AccountsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,11 +42,10 @@ class AccountsFragment : Fragment() {
             LinearLayoutManager(context)
         binding.accountList.setHasFixedSize(false)
         binding.accountList.addItemDecoration(AccountItemsDecoration())
+        accountsAdapter = AccountsAdapter(requireActivity().supportFragmentManager)
         binding.accountList.adapter = accountsAdapter
 
         initViewModel()
-
-        fragmentManager?.let { TransferFragment().show(it, "") }
 
         return binding.root
     }
