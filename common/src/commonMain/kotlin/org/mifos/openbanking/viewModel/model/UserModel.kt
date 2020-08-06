@@ -13,6 +13,7 @@ class UserModel(
 @Serializable
 class AccountModel(
     val accountId: String,
+    val bankName: String,
     val bankId: String,
     var balance: Double? = null,
     var currency: String? = null

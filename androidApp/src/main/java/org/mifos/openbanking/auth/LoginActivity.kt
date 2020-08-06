@@ -9,6 +9,10 @@ import androidx.lifecycle.ViewModelProviders
 import org.mifos.openbanking.R
 import org.mifos.openbanking.databinding.ActivityLoginBinding
 import org.mifos.openbanking.navigation.NavigationActivity
+import org.mifos.openbanking.viewModel.app.App
+import org.mifos.openbanking.viewModel.app.ErrorSupportedBanksState
+import org.mifos.openbanking.viewModel.app.LoadingSupportedBanksState
+import org.mifos.openbanking.viewModel.app.SuccessSupportedBanksState
 import org.mifos.openbanking.viewModel.auth.*
 
 class LoginActivity : AppCompatActivity() {
@@ -22,10 +26,6 @@ class LoginActivity : AppCompatActivity() {
 
         configView()
         initViewModel()
-
-        if (authViewModel.isUserLoggedIn()) {
-            gotoNavigationActivity()
-        }
     }
 
     private fun configView() {
@@ -37,6 +37,27 @@ class LoginActivity : AppCompatActivity() {
 
     private fun initViewModel() {
         authViewModel = ViewModelProviders.of(this).get(AuthViewModel::class.java)
+        App.supportedBanksLiveData.addObserver { state ->
+            run {
+                when (state) {
+                    is SuccessSupportedBanksState -> {
+                        if (authViewModel.isUserLoggedIn()) {
+                            gotoNavigationActivity()
+                        } else {
+                            binding.layoutLogin.visibility = View.VISIBLE
+                        }
+                    }
+
+                    is LoadingSupportedBanksState -> {
+
+                    }
+
+                    is ErrorSupportedBanksState -> {
+                        finish()
+                    }
+                }
+            }
+        }
     }
 
     private fun observeAuthState(state: AuthState) {

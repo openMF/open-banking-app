@@ -10,6 +10,7 @@ import org.mifos.openbanking.di.KodeinInjector
 import org.mifos.openbanking.domain.usecase.loginClient.LoginClientRequest
 import org.mifos.openbanking.domain.usecase.loginClient.LoginClientUseCase
 import org.mifos.openbanking.viewModel.base.BaseViewModel
+import org.mifos.openbanking.viewModel.model.UserModel
 
 class AuthViewModel : BaseViewModel() {
 
@@ -46,17 +47,13 @@ class AuthViewModel : BaseViewModel() {
             val response = loginClientUseCase.execute(request)
 
             if (response is Response.Success) {
-                val userModel = userLiveData.getUserModel()
+                val userModel = UserModel()
                 userModel.username = username
                 userModel.token = response.data.token
                 diskDataSource.saveUserModel(userModel)
                 authStateLiveData.postValue(SuccessAuthState)
             } else if (response is Response.Error) {
-                authStateLiveData.postValue(
-                    ErrorAuthState(
-                        response.exception.message
-                    )
-                )
+                authStateLiveData.postValue(ErrorAuthState(response.exception.message))
             }
         }
 

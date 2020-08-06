@@ -58,7 +58,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="3dp"
                 android:fontFamily="@font/roboto_regular"
-                android:text="@{account.bankId.toUpperCase()}"
+                android:text="@{account.bankName}"
                 android:textColor="#DE000000"
                 android:textSize="24sp"
                 app:layout_constraintLeft_toLeftOf="parent"

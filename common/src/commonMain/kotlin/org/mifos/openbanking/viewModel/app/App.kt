@@ -1,20 +1,23 @@
-package org.mifos.openbanking
+package org.mifos.openbanking.viewModel.app
 
+import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
 import org.kodein.di.erased.instance
+import org.mifos.openbanking.base.Response
 import org.mifos.openbanking.coroutines.launchSilent
 import org.mifos.openbanking.data.datasources.disk.DiskDataSource
 import org.mifos.openbanking.di.KodeinInjector
 import org.mifos.openbanking.domain.usecase.fetchBanks.FetchBanksRequest
 import org.mifos.openbanking.domain.usecase.fetchBanks.FetchBanksUseCase
-import org.mifos.openbanking.livedata.UserLiveData
 import kotlin.coroutines.CoroutineContext
 
 object App {
 
     // LIVE DATA
-    private val userLiveData by KodeinInjector.instance<UserLiveData>()
+    val supportedBanksLiveData = MutableLiveData<SupportedBanksState>(
+        LoadingSupportedBanksState
+    )
 
     // USE-CASES
     private val fetchBanksUseCase by KodeinInjector.instance<FetchBanksUseCase>()
@@ -27,10 +30,6 @@ object App {
     private val diskDataSource by KodeinInjector.instance<DiskDataSource>()
 
     fun appLaunch() {
-        val userModel = diskDataSource.getUserModel()
-        if (userModel != null) {
-            userLiveData.updateUserModel(userModel)
-        }
         fetchBanks()
     }
 
@@ -40,5 +39,12 @@ object App {
         job
     ) {
         val response = fetchBanksUseCase.execute(FetchBanksRequest())
+        if (response is Response.Success) {
+            val bankList = response.data.bankList
+            diskDataSource.saveSupportedBanks(bankList)
+            supportedBanksLiveData.postValue(SuccessSupportedBanksState)
+        } else if (response is Response.Error) {
+            supportedBanksLiveData.postValue(ErrorSupportedBanksState(response.message))
+        }
     }
 }

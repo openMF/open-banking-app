@@ -4,6 +4,7 @@ import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import org.kodein.di.erased.instance
 import org.mifos.openbanking.base.Response
 import org.mifos.openbanking.coroutines.launchSilent
+import org.mifos.openbanking.data.datasources.disk.DiskDataSource
 import org.mifos.openbanking.di.KodeinInjector
 import org.mifos.openbanking.domain.usecase.fetchAccounts.FetchAccountsRequest
 import org.mifos.openbanking.domain.usecase.fetchAccounts.FetchAccountsUseCase
@@ -23,6 +24,8 @@ class AccountViewModel : BaseViewModel() {
     private val fetchAccountsUseCase by KodeinInjector.instance<FetchAccountsUseCase>()
     private val fetchBalancesUseCase by KodeinInjector.instance<FetchBalancesUseCase>()
 
+    private val diskDataSource by KodeinInjector.instance<DiskDataSource>()
+
     fun fetchAccounts() = launchSilent(
         coroutineContext,
         exceptionHandler,
@@ -30,12 +33,13 @@ class AccountViewModel : BaseViewModel() {
     ) {
         val request =
             FetchAccountsRequest(
-                userLiveData.getUserModel().token
+                diskDataSource.getUserModel()!!.token
             )
 
         val response = fetchAccountsUseCase.execute(request)
 
         if (response is Response.Success) {
+            val supportedBanks = diskDataSource.getSupportedBanks()
             val accountModelList: MutableList<AccountModel> =
                 mutableListOf()
             val banksConnected: MutableSet<String> = mutableSetOf()
@@ -43,25 +47,22 @@ class AccountViewModel : BaseViewModel() {
                 accountModelList.add(
                     AccountModel(
                         account.accountId,
+                        supportedBanks!!.find { bank -> bank.id == account.bankId }!!.shortName!!,
                         account.bankId
                     )
                 )
                 banksConnected.add(account.bankId)
             }
-            val userModel = userLiveData.getUserModel()
+            val userModel = diskDataSource.getUserModel()!!
             userModel.accounts = accountModelList
             userModel.banksConnected = banksConnected
-
+            diskDataSource.saveUserModel(userModel)
             accountStateLiveData.postValue(
-                SuccessAccountState(
-                    accountModelList
-                )
+                SuccessAccountState(accountModelList)
             )
         } else if (response is Response.Error) {
             accountStateLiveData.postValue(
-                ErrorAccountState(
-                    response.message
-                )
+                ErrorAccountState(response.message)
             )
         }
     }
@@ -71,7 +72,7 @@ class AccountViewModel : BaseViewModel() {
         exceptionHandler,
         job
     ) {
-        val userModel = userLiveData.getUserModel()
+        val userModel = diskDataSource.getUserModel()!!
         for (bankId in userModel.banksConnected) {
             val response =
                 fetchBalancesUseCase.execute(
@@ -100,6 +101,7 @@ class AccountViewModel : BaseViewModel() {
             }
         }
 
+        diskDataSource.saveUserModel(userModel)
         accountStateLiveData.postValue(
             SuccessAccountState(
                 userModel.accounts!!,
@@ -108,4 +110,11 @@ class AccountViewModel : BaseViewModel() {
         )
     }
 
+    fun fetchSupportedBanks() = launchSilent(
+        coroutineContext,
+        exceptionHandler,
+        job
+    ) {
+
+    }
 }

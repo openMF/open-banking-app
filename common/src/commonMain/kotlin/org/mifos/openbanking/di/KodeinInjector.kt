@@ -17,7 +17,6 @@ import org.mifos.openbanking.domain.usecase.fetchAccounts.FetchAccountsUseCase
 import org.mifos.openbanking.domain.usecase.fetchBalances.FetchBalancesUseCase
 import org.mifos.openbanking.domain.usecase.fetchBanks.FetchBanksUseCase
 import org.mifos.openbanking.domain.usecase.loginClient.LoginClientUseCase
-import org.mifos.openbanking.livedata.UserLiveData
 import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.ThreadLocal
 
@@ -25,11 +24,6 @@ import kotlin.native.concurrent.ThreadLocal
 val KodeinInjector = Kodein {
 
     bind<CoroutineContext>() with provider { ApplicationDispatcher }
-
-    /**
-     * LIVE DATA
-     */
-    bind<UserLiveData>() with singleton { UserLiveData }
 
     /**
      * USECASES
