@@ -28,12 +28,8 @@ class PreferencesHelper {
         preferences.setString(supportedBanksKey, Json.stringify(Bank.serializer().list, bankList))
     }
 
-    fun getSupportedBanks(): List<Bank>? {
-        return if (preferences.hasKey(supportedBanksKey)) {
-            Json.parse(Bank.serializer().list, preferences.getString(supportedBanksKey)!!)
-        } else {
-            null
-        }
+    fun getSupportedBanks(): List<Bank> {
+        return Json.parse(Bank.serializer().list, preferences.getString(supportedBanksKey)!!)
     }
 
 }

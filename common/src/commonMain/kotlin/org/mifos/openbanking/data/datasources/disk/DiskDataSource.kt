@@ -31,7 +31,7 @@ class DiskDataSource {
         preferencesHelper.saveSupportedBanks(bankList)
     }
 
-    fun getSupportedBanks(): List<Bank>? {
+    fun getSupportedBanks(): List<Bank> {
         return preferencesHelper.getSupportedBanks()
     }
 

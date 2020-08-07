@@ -10,7 +10,9 @@
         android:allowBackup="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".navigation.NavigationActivity" />
+        <activity
+            android:name=".navigation.NavigationActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".auth.LoginActivity"
             android:theme="@style/AppTheme">

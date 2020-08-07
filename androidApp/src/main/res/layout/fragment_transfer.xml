@@ -4,6 +4,10 @@
     <data>
 
         <variable
+            name="account"
+            type="org.mifos.openbanking.viewModel.model.AccountModel" />
+
+        <variable
             name="clickHandler"
             type="org.mifos.openbanking.transfer.TransferFragment" />
 
@@ -13,7 +17,6 @@
         android:id="@+id/transferLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/drawable_bottom_sheet_view"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="20dp">
@@ -23,20 +26,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
-            android:text="Full Bank Name"
-            android:textColor="#DE000000"
-            android:textSize="24sp" />
+            android:text="@{account.bankName}"
+            android:textColor="@color/grey"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tvAccountId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
-            android:text="Account id"
-            android:textColor="#DE000000"
+            android:text="@{account.accountId.toUpperCase()}"
+            android:textColor="@color/dark_grey"
             android:textSize="24sp" />
 
         <ImageView
+            android:layout_marginTop="15dp"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:adjustViewBounds="true"
@@ -46,6 +50,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="25dp"
+            android:layout_marginBottom="15dp"
             android:adjustViewBounds="true"
             android:src="@android:drawable/arrow_down_float"
             android:tint="@color/colorPrimary" />
@@ -67,15 +72,17 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/et_bank"
+                style="@style/Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:completionThreshold="0"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/bank_name"
                 android:inputType="text"
@@ -94,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/amount"
-                android:inputType="text"
+                android:inputType="numberDecimal"
                 android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,9 +117,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="10dp"
-                android:onClick="@{clickHandler::onCancelClicked}"
                 android:layout_weight="3"
                 android:fontFamily="@font/roboto_bold"
+                android:onClick="@{clickHandler::onCancelClicked}"
                 android:text="@string/cancel"
                 android:textSize="18sp" />
 

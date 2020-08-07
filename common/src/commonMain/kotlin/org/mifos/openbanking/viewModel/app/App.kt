@@ -41,7 +41,8 @@ object App {
         val response = fetchBanksUseCase.execute(FetchBanksRequest())
         if (response is Response.Success) {
             val bankList = response.data.bankList
-            diskDataSource.saveSupportedBanks(bankList)
+            val sortedBy = bankList.sortedBy { it.shortName }
+            diskDataSource.saveSupportedBanks(sortedBy)
             supportedBanksLiveData.postValue(SuccessSupportedBanksState)
         } else if (response is Response.Error) {
             supportedBanksLiveData.postValue(ErrorSupportedBanksState(response.message))

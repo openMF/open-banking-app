@@ -52,7 +52,10 @@ class AccountsAdapter(private val supportFragmentManager: FragmentManager) :
         }
 
         fun onTransferClicked(view: View) {
-            TransferFragment().show(this@AccountsAdapter.supportFragmentManager, "")
+            TransferFragment(binding.account!!).show(
+                this@AccountsAdapter.supportFragmentManager,
+                ""
+            )
         }
 
     }
