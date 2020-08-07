@@ -9,5 +9,9 @@ const val ACCOUNTS_PATH = "obp/v4.0.0/my/accounts"
 const val BANKS_PATH = "obp/v4.0.0/banks"
 
 fun bankBalancePath(bankId: String): String {
-    return "/obp/v4.0.0/banks/$bankId/balances"
+    return "obp/v4.0.0/banks/$bankId/balances"
+}
+
+fun moneyTransferPath(bankId: String, accountId: String): String {
+    return "obp/v4.0.0/banks/$bankId/accounts/$accountId/owner/transaction-request-types/SANDBOX_TAN/transaction-requests"
 }

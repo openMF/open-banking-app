@@ -8,33 +8,96 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.gson.Gson
 import org.mifos.openbanking.R
 import org.mifos.openbanking.databinding.FragmentTransferBinding
-import org.mifos.openbanking.viewModel.account.AccountViewModel
 import org.mifos.openbanking.viewModel.model.AccountModel
+import org.mifos.openbanking.viewModel.transfer.*
 
-
-class TransferFragment(private val account: AccountModel) : BottomSheetDialogFragment() {
+class TransferFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentTransferBinding
-    private lateinit var accountViewModel: AccountViewModel
+    private lateinit var transferViewModel: TransferViewModel
+    private lateinit var account: AccountModel
+
+    companion object {
+        private const val accountKey = "account"
+
+        fun newInstance(account: AccountModel): TransferFragment {
+            val args = Bundle()
+            args.putString(accountKey, Gson().toJson(account))
+            val fragment = TransferFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        account =
+            Gson().fromJson(requireArguments().getString(accountKey), AccountModel::class.java)
+
         initBinding()
 
-        accountViewModel = ViewModelProviders.of(this).get(AccountViewModel::class.java)
-        val supportedBanks = accountViewModel.getSupportedBanks()
+        transferViewModel = ViewModelProviders.of(this).get(TransferViewModel::class.java)
+        val supportedBanks = transferViewModel.getSupportedBanks()
         val bankNames = supportedBanks.map { it.shortName }.toTypedArray()
         val adapter: ArrayAdapter<String?> = ArrayAdapter(
             requireContext(), android.R.layout.simple_dropdown_item_1line, bankNames
         )
         binding.etBank.setAdapter(adapter)
+        binding.shimmerProceed.hideShimmer()
 
         return configDialog(savedInstanceState)
+    }
+
+    fun onProceedClicked(view: View) {
+        binding.shimmerProceed.showShimmer(true)
+        transferViewModel.transferStateLiveData.addObserver { observeTransferState(it) }
+        val bankName = binding.etBank.text.toString()
+        val supportedBanks = transferViewModel.getSupportedBanks()
+        val destinationBankId = supportedBanks.find { it.shortName == bankName }!!.id
+        transferViewModel.transferMoney(
+            account.bankId,
+            account.accountId,
+            destinationBankId,
+            binding.etAccount.text.toString(),
+            "EUR",
+            binding.etAmount.text.toString().toDouble(),
+            binding.etDescription.text.toString()
+        )
+    }
+
+    private fun observeTransferState(state: TransferState) {
+        when (state) {
+            is SuccessTransferState -> {
+                binding.shimmerProceed.hideShimmer()
+                Toast.makeText(
+                    requireContext(),
+                    "Money transferred successfully",
+                    Toast.LENGTH_SHORT
+                ).show()
+                dismiss()
+            }
+
+            is LoadingTransferState -> {
+
+            }
+
+            is ErrorTransferState -> {
+                binding.shimmerProceed.hideShimmer()
+                Toast.makeText(
+                    requireContext(),
+                    "Unable to transfer money",
+                    Toast.LENGTH_SHORT
+                ).show()
+                dismiss()
+            }
+        }
     }
 
     private fun initBinding() {

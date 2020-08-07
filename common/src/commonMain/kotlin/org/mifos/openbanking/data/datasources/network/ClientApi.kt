@@ -5,6 +5,8 @@ import io.ktor.client.features.ClientRequestException
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.request.post
+import io.ktor.http.ContentType
+import io.ktor.http.content.TextContent
 import kotlinx.serialization.builtins.list
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
@@ -20,6 +22,8 @@ import org.mifos.openbanking.domain.usecase.fetchBalances.FetchBalancesRequest
 import org.mifos.openbanking.domain.usecase.fetchBalances.FetchBalancesResponse
 import org.mifos.openbanking.domain.usecase.loginClient.LoginClientRequest
 import org.mifos.openbanking.domain.usecase.loginClient.LoginClientResponse
+import org.mifos.openbanking.domain.usecase.transferMoney.TransferMoneyRequest
+import org.mifos.openbanking.domain.usecase.transferMoney.TransferMoneyResponse
 
 class ClientApi {
 
@@ -115,6 +119,42 @@ class ClientApi {
                     accountBalances
                 )
             )
+
+        } catch (exp: ClientRequestException) {
+            return Response.Error(exp)
+        } catch (exp: Exception) {
+            return Response.Error(exp)
+        }
+    }
+
+    suspend fun transferMoney(request: TransferMoneyRequest): Response<TransferMoneyResponse> {
+        try {
+
+            val content = "{" +
+                    "  \"to\": {" +
+                    "    \"bank_id\": \"${request.destinationBankId}\"," +
+                    "    \"account_id\": \"${request.destinationAccountId}\"" +
+                    "  }," +
+                    "  \"value\": {" +
+                    "    \"currency\": \"${request.currency}\"," +
+                    "    \"amount\": \"${request.amount}\"" +
+                    "  }," +
+                    "  \"description\": \"${request.description}\"" +
+                    "}"
+
+            val response = client.post<String>(
+                urlString = API_HOST + moneyTransferPath(
+                    request.sourceBankId,
+                    request.sourceAccountId
+                )
+            ) {
+                headers {
+                    append("Authorization", "DirectLogin token=${request.token}")
+                }
+                body = TextContent(content, contentType = ContentType.Application.Json)
+            }
+
+            return Response.Success(TransferMoneyResponse())
 
         } catch (exp: ClientRequestException) {
             return Response.Error(exp)

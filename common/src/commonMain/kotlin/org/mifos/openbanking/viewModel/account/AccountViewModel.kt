@@ -10,7 +10,6 @@ import org.mifos.openbanking.domain.usecase.fetchAccounts.FetchAccountsRequest
 import org.mifos.openbanking.domain.usecase.fetchAccounts.FetchAccountsUseCase
 import org.mifos.openbanking.domain.usecase.fetchBalances.FetchBalancesRequest
 import org.mifos.openbanking.domain.usecase.fetchBalances.FetchBalancesUseCase
-import org.mifos.openbanking.domain.usecase.fetchBanks.Bank
 import org.mifos.openbanking.viewModel.base.BaseViewModel
 import org.mifos.openbanking.viewModel.model.AccountModel
 
@@ -109,9 +108,5 @@ class AccountViewModel : BaseViewModel() {
                 true
             )
         )
-    }
-
-    fun getSupportedBanks(): List<Bank> {
-        return diskDataSource.getSupportedBanks()
     }
 }
