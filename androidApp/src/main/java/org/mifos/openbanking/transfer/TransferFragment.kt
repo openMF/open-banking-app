@@ -17,12 +17,12 @@ import com.google.gson.Gson
 import org.mifos.openbanking.R
 import org.mifos.openbanking.databinding.FragmentTransferBinding
 import org.mifos.openbanking.viewModel.model.AccountModel
-import org.mifos.openbanking.viewModel.transfer.*
+import org.mifos.openbanking.viewModel.transaction.*
 
 class TransferFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentTransferBinding
-    private lateinit var transferViewModel: TransferViewModel
+    private lateinit var createTransactionRequestViewModel: CreateTransactionRequestViewModel
     private lateinit var account: AccountModel
 
     companion object {
@@ -43,8 +43,8 @@ class TransferFragment : BottomSheetDialogFragment() {
 
         initBinding()
 
-        transferViewModel = ViewModelProviders.of(this).get(TransferViewModel::class.java)
-        val supportedBanks = transferViewModel.getSupportedBanks()
+        createTransactionRequestViewModel = ViewModelProviders.of(this).get(CreateTransactionRequestViewModel::class.java)
+        val supportedBanks = createTransactionRequestViewModel.getSupportedBanks()
         val bankNames = supportedBanks.map { it.shortName }.toTypedArray()
         val adapter: ArrayAdapter<String?> = ArrayAdapter(
             requireContext(), android.R.layout.simple_dropdown_item_1line, bankNames
@@ -57,11 +57,11 @@ class TransferFragment : BottomSheetDialogFragment() {
 
     fun onProceedClicked(view: View) {
         binding.shimmerProceed.showShimmer(true)
-        transferViewModel.transferStateLiveData.addObserver { observeTransferState(it) }
+        createTransactionRequestViewModel.createTransactionRequestStateLiveData.addObserver { observeTransferState(it) }
         val bankName = binding.etBank.text.toString()
-        val supportedBanks = transferViewModel.getSupportedBanks()
+        val supportedBanks = createTransactionRequestViewModel.getSupportedBanks()
         val destinationBankId = supportedBanks.find { it.shortName == bankName }!!.id
-        transferViewModel.transferMoney(
+        createTransactionRequestViewModel.createTransactionRequest(
             account.bankId,
             account.accountId,
             destinationBankId,
@@ -72,9 +72,9 @@ class TransferFragment : BottomSheetDialogFragment() {
         )
     }
 
-    private fun observeTransferState(state: TransferState) {
+    private fun observeTransferState(state: CreateTransactionRequestState) {
         when (state) {
-            is SuccessTransferState -> {
+            is SuccessCreateTransactionRequestState -> {
                 binding.shimmerProceed.hideShimmer()
                 Toast.makeText(
                     requireContext(),
@@ -84,11 +84,11 @@ class TransferFragment : BottomSheetDialogFragment() {
                 dismiss()
             }
 
-            is LoadingTransferState -> {
+            is LoadingCreateTransactionRequestState -> {
 
             }
 
-            is ErrorTransferState -> {
+            is ErrorCreateTransactionRequestState -> {
                 binding.shimmerProceed.hideShimmer()
                 Toast.makeText(
                     requireContext(),

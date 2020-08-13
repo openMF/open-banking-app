@@ -1,0 +1,3 @@
+package org.mifos.openbanking.domain.usecase.createTransactionRequest
+
+class CreateTransactionRequestResponse

@@ -22,8 +22,8 @@ import org.mifos.openbanking.domain.usecase.fetchBalances.FetchBalancesRequest
 import org.mifos.openbanking.domain.usecase.fetchBalances.FetchBalancesResponse
 import org.mifos.openbanking.domain.usecase.loginClient.LoginClientRequest
 import org.mifos.openbanking.domain.usecase.loginClient.LoginClientResponse
-import org.mifos.openbanking.domain.usecase.transferMoney.TransferMoneyRequest
-import org.mifos.openbanking.domain.usecase.transferMoney.TransferMoneyResponse
+import org.mifos.openbanking.domain.usecase.createTransactionRequest.CreateTransactionRequestRequest
+import org.mifos.openbanking.domain.usecase.createTransactionRequest.CreateTransactionRequestResponse
 
 class ClientApi {
 
@@ -127,7 +127,7 @@ class ClientApi {
         }
     }
 
-    suspend fun transferMoney(request: TransferMoneyRequest): Response<TransferMoneyResponse> {
+    suspend fun createTransactionRequest(request: CreateTransactionRequestRequest): Response<CreateTransactionRequestResponse> {
         try {
 
             val content = "{" +
@@ -143,7 +143,7 @@ class ClientApi {
                     "}"
 
             val response = client.post<String>(
-                urlString = API_HOST + moneyTransferPath(
+                urlString = API_HOST + createTransactionRequestPath(
                     request.sourceBankId,
                     request.sourceAccountId
                 )
@@ -154,7 +154,7 @@ class ClientApi {
                 body = TextContent(content, contentType = ContentType.Application.Json)
             }
 
-            return Response.Success(TransferMoneyResponse())
+            return Response.Success(CreateTransactionRequestResponse())
 
         } catch (exp: ClientRequestException) {
             return Response.Error(exp)

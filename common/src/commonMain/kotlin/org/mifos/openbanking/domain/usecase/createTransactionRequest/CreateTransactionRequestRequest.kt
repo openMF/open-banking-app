@@ -1,8 +1,8 @@
-package org.mifos.openbanking.domain.usecase.transferMoney
+package org.mifos.openbanking.domain.usecase.createTransactionRequest
 
 import org.mifos.openbanking.domain.usecase.base.BaseRequest
 
-class TransferMoneyRequest(
+class CreateTransactionRequestRequest(
     val token: String,
     val sourceBankId: String,
     val sourceAccountId: String,

@@ -12,8 +12,8 @@ import org.mifos.openbanking.domain.usecase.fetchBanks.FetchBanksRequest
 import org.mifos.openbanking.domain.usecase.fetchBanks.FetchBanksResponse
 import org.mifos.openbanking.domain.usecase.loginClient.LoginClientRequest
 import org.mifos.openbanking.domain.usecase.loginClient.LoginClientResponse
-import org.mifos.openbanking.domain.usecase.transferMoney.TransferMoneyRequest
-import org.mifos.openbanking.domain.usecase.transferMoney.TransferMoneyResponse
+import org.mifos.openbanking.domain.usecase.createTransactionRequest.CreateTransactionRequestRequest
+import org.mifos.openbanking.domain.usecase.createTransactionRequest.CreateTransactionRequestResponse
 
 class OpenBankingRepository(
     private val networkDataSource: NetworkDataSource
@@ -40,8 +40,8 @@ class OpenBankingRepository(
         return networkDataSource.getBankApi().fetchBanks(request)
     }
 
-    suspend fun transferMoney(request: TransferMoneyRequest): Response<TransferMoneyResponse> {
-        return networkDataSource.getClientApi().transferMoney(request)
+    suspend fun createTransactionRequest(request: CreateTransactionRequestRequest): Response<CreateTransactionRequestResponse> {
+        return networkDataSource.getClientApi().createTransactionRequest(request)
     }
 
 

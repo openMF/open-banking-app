@@ -12,6 +12,6 @@ fun bankBalancePath(bankId: String): String {
     return "obp/v4.0.0/banks/$bankId/balances"
 }
 
-fun moneyTransferPath(bankId: String, accountId: String): String {
+fun createTransactionRequestPath(bankId: String, accountId: String): String {
     return "obp/v4.0.0/banks/$bankId/accounts/$accountId/owner/transaction-request-types/SANDBOX_TAN/transaction-requests"
 }
