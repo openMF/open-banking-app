@@ -6,9 +6,9 @@ import org.mifos.openbanking.base.Response
 import org.mifos.openbanking.coroutines.launchSilent
 import org.mifos.openbanking.data.datasources.disk.DiskDataSource
 import org.mifos.openbanking.di.KodeinInjector
-import org.mifos.openbanking.domain.usecase.fetchBanks.Bank
 import org.mifos.openbanking.domain.usecase.createTransactionRequest.CreateTransactionRequestRequest
 import org.mifos.openbanking.domain.usecase.createTransactionRequest.CreateTransactionRequestUseCase
+import org.mifos.openbanking.domain.usecase.fetchBanks.Bank
 import org.mifos.openbanking.viewModel.base.BaseViewModel
 
 class CreateTransactionRequestViewModel : BaseViewModel() {
@@ -52,7 +52,11 @@ class CreateTransactionRequestViewModel : BaseViewModel() {
         if (response is Response.Success) {
             createTransactionRequestStateLiveData.postValue(SuccessCreateTransactionRequestState)
         } else if (response is Response.Error) {
-            createTransactionRequestStateLiveData.postValue(ErrorCreateTransactionRequestState(response.message))
+            createTransactionRequestStateLiveData.postValue(
+                ErrorCreateTransactionRequestState(
+                    response.message
+                )
+            )
         }
     }
 

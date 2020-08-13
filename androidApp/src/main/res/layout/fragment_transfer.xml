@@ -96,9 +96,9 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             app:prefixText="£ "
-            app:prefixTextAppearance="@style/EuroSignTextPrefix"
-            android:layout_marginBottom="10dp">
+            app:prefixTextAppearance="@style/EuroSignTextPrefix">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_amount"

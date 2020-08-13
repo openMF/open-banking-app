@@ -43,7 +43,8 @@ class TransferFragment : BottomSheetDialogFragment() {
 
         initBinding()
 
-        createTransactionRequestViewModel = ViewModelProviders.of(this).get(CreateTransactionRequestViewModel::class.java)
+        createTransactionRequestViewModel =
+            ViewModelProviders.of(this).get(CreateTransactionRequestViewModel::class.java)
         val supportedBanks = createTransactionRequestViewModel.getSupportedBanks()
         val bankNames = supportedBanks.map { it.shortName }.toTypedArray()
         val adapter: ArrayAdapter<String?> = ArrayAdapter(
@@ -57,7 +58,11 @@ class TransferFragment : BottomSheetDialogFragment() {
 
     fun onProceedClicked(view: View) {
         binding.shimmerProceed.showShimmer(true)
-        createTransactionRequestViewModel.createTransactionRequestStateLiveData.addObserver { observeTransferState(it) }
+        createTransactionRequestViewModel.createTransactionRequestStateLiveData.addObserver {
+            observeTransferState(
+                it
+            )
+        }
         val bankName = binding.etBank.text.toString()
         val supportedBanks = createTransactionRequestViewModel.getSupportedBanks()
         val destinationBankId = supportedBanks.find { it.shortName == bankName }!!.id
