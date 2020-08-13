@@ -18,6 +18,7 @@ import org.mifos.openbanking.domain.usecase.createTransactionRequest.CreateTrans
 import org.mifos.openbanking.domain.usecase.fetchAccounts.FetchAccountsUseCase
 import org.mifos.openbanking.domain.usecase.fetchBalances.FetchBalancesUseCase
 import org.mifos.openbanking.domain.usecase.fetchBanks.FetchBanksUseCase
+import org.mifos.openbanking.domain.usecase.fetchTransactionRequests.FetchTransactionRequestsUseCase
 import org.mifos.openbanking.domain.usecase.loginClient.LoginClientUseCase
 import kotlin.coroutines.CoroutineContext
 import kotlin.native.concurrent.ThreadLocal
@@ -57,6 +58,11 @@ val KodeinInjector = Kodein {
     }
     bind<CreateTransactionRequestUseCase>() with singleton {
         CreateTransactionRequestUseCase(
+            instance()
+        )
+    }
+    bind<FetchTransactionRequestsUseCase>() with singleton {
+        FetchTransactionRequestsUseCase(
             instance()
         )
     }
