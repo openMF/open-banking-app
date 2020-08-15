@@ -13,6 +13,7 @@
     <string name="proceed">Proceed</string>
     <string name="cancel">Cancel</string>
     <string name="description">Description</string>
+    <string name="requests_from">Requests from</string>
 
 
 </resources>

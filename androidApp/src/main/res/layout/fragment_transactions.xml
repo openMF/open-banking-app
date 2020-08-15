@@ -69,10 +69,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                android:text="Requests"
-                android:textAllCaps="true"
+                android:paddingTop="10dp"
+                android:text="@string/requests_from"
                 android:textColor="@color/white"
                 android:textSize="22sp"
                 android:visibility="gone"
@@ -80,6 +78,26 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/headlayout" />
 
+            <TextView
+                android:id="@+id/tv_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/round_6dp"
+                android:backgroundTint="@color/colorPrimaryLight"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingLeft="5dp"
+                android:paddingTop="3dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="3dp"
+                android:textColor="@color/colorPrimaryMedium"
+                android:textSize="18sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_subtitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -122,6 +140,20 @@
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/topBar" />
+
+        <TextView
+            android:id="@+id/tv_no_requests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="No Transactions\nRequests Made"
+            android:textColor="@color/lightGrey"
+            android:textSize="36sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/topBar" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

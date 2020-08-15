@@ -1,6 +1,8 @@
 package org.mifos.openbanking.utils
 
 import android.content.res.Resources
+import android.text.Html
+import android.text.Spanned
 import java.text.DecimalFormat
 import java.util.*
 
@@ -31,4 +33,8 @@ fun formatTransactionRequestId(requestId: String): String {
     } catch (exp: Exception) {
         requestId
     }
+}
+
+fun formatAccount(bankId: String, accountId: String): Spanned {
+    return Html.fromHtml("<b>$accountId</b>@$bankId")
 }

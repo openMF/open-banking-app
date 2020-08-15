@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.mifos.openbanking.R
 import org.mifos.openbanking.databinding.FragmentTransactionsBinding
+import org.mifos.openbanking.utils.formatAccount
 import org.mifos.openbanking.viewModel.transaction.*
 
 class TransactionsFragment : Fragment() {
@@ -42,6 +43,12 @@ class TransactionsFragment : Fragment() {
 
         if (arguments != null) {
             binding.tvSubtitle.visibility = View.VISIBLE
+
+            val bankId = requireArguments().getString(bankIdKey)!!
+            val accountId = requireArguments().getString(accountIdKey)!!
+            binding.tvAccount.text = formatAccount(bankId, accountId)
+            binding.tvAccount.visibility = View.VISIBLE
+
             binding.layoutTransactionSummary.visibility = View.GONE
             transactionViewModel.fetchTransactionStateLiveData.addObserver {
                 observeFetchTransactionsState(
@@ -49,8 +56,8 @@ class TransactionsFragment : Fragment() {
                 )
             }
             transactionViewModel.fetchTransactionRequestsFor(
-                requireArguments().getString(bankIdKey)!!,
-                requireArguments().getString(accountIdKey)!!
+                bankId,
+                accountId
             )
 
             binding.rvGeneral.layoutManager = LinearLayoutManager(context)
@@ -66,6 +73,9 @@ class TransactionsFragment : Fragment() {
         when (state) {
             is SuccessFetchTransactionState -> {
                 transactionRequestsAdapter.setTransactionRequests(state.transactionRequestModelList)
+                if (state.transactionRequestModelList.isEmpty()) {
+                    binding.tvNoRequests.visibility = View.VISIBLE
+                }
             }
 
             is LoadingFetchTransactionState -> {
