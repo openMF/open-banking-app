@@ -42,7 +42,7 @@ class AccountsFragment : Fragment() {
             LinearLayoutManager(context)
         binding.accountList.setHasFixedSize(false)
         binding.accountList.addItemDecoration(AccountItemsDecoration())
-        accountsAdapter = AccountsAdapter(requireActivity().supportFragmentManager)
+        accountsAdapter = AccountsAdapter(requireActivity())
         binding.accountList.adapter = accountsAdapter
 
         initViewModel()

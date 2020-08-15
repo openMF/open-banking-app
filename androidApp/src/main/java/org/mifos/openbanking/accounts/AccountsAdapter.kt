@@ -1,17 +1,20 @@
 package org.mifos.openbanking.accounts
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentActivity
+import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import org.mifos.openbanking.R
 import org.mifos.openbanking.databinding.ItemAccountBinding
+import org.mifos.openbanking.transactions.TransactionsFragment
 import org.mifos.openbanking.transfer.TransferFragment
 import org.mifos.openbanking.viewModel.model.AccountModel
 
-class AccountsAdapter(private val supportFragmentManager: FragmentManager) :
+class AccountsAdapter(private val activity: FragmentActivity) :
     RecyclerView.Adapter<AccountsAdapter.ViewHolder>() {
 
     private var accountList: List<AccountModel> = emptyList()
@@ -53,7 +56,16 @@ class AccountsAdapter(private val supportFragmentManager: FragmentManager) :
 
         fun onTransferClicked(view: View) {
             TransferFragment.newInstance(binding.account!!)
-                .show(this@AccountsAdapter.supportFragmentManager, "Transfer")
+                .show(this@AccountsAdapter.activity.supportFragmentManager, "Transfer")
+        }
+
+        fun onTransactionsClicked(view: View) {
+            val navController = findNavController(activity, R.id.nav_host_fragment)
+            val account = binding.account!!
+            val args = Bundle()
+            args.putString(TransactionsFragment.bankIdKey, account.bankId)
+            args.putString(TransactionsFragment.accountIdKey, account.accountId)
+            navController.navigate(R.id.navigation_transactions, args)
         }
 
     }

@@ -19,8 +19,8 @@ class DiskDataSource {
         return userModel != null
     }
 
-    fun getUserModel(): UserModel? {
-        return preferencesHelper.getUserModel()
+    fun getUserModel(): UserModel {
+        return preferencesHelper.getUserModel()!!
     }
 
     fun saveUserModel(userModel: UserModel) {

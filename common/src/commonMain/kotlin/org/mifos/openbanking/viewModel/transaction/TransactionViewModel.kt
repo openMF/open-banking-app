@@ -9,19 +9,63 @@ import org.mifos.openbanking.di.KodeinInjector
 import org.mifos.openbanking.domain.usecase.createTransactionRequest.CreateTransactionRequestRequest
 import org.mifos.openbanking.domain.usecase.createTransactionRequest.CreateTransactionRequestUseCase
 import org.mifos.openbanking.domain.usecase.fetchBanks.Bank
+import org.mifos.openbanking.domain.usecase.fetchTransactionRequests.FetchTransactionRequestsRequest
+import org.mifos.openbanking.domain.usecase.fetchTransactionRequests.FetchTransactionRequestsUseCase
 import org.mifos.openbanking.viewModel.base.BaseViewModel
+import org.mifos.openbanking.viewModel.model.TransactionRequestModel
 
-class CreateTransactionRequestViewModel : BaseViewModel() {
+class TransactionViewModel : BaseViewModel() {
 
     // LIVE DATA
     val createTransactionRequestStateLiveData = MutableLiveData<CreateTransactionRequestState>(
         LoadingCreateTransactionRequestState
     )
+    val fetchTransactionStateLiveData = MutableLiveData<FetchTransactionState>(
+        LoadingFetchTransactionState
+    )
 
     // USE CASE
     private val createTransactionRequestUseCase by KodeinInjector.instance<CreateTransactionRequestUseCase>()
+    private val fetchTransactionRequestsUseCase by KodeinInjector.instance<FetchTransactionRequestsUseCase>()
 
     private val diskDataSource by KodeinInjector.instance<DiskDataSource>()
+
+    fun fetchTransactionRequestsFor(bankId: String, accountId: String) = launchSilent(
+        coroutineContext,
+        exceptionHandler,
+        job
+    ) {
+        val userModel = diskDataSource.getUserModel()
+        val request = FetchTransactionRequestsRequest(
+            userModel.token,
+            bankId,
+            accountId
+        )
+        val response = fetchTransactionRequestsUseCase.execute(request)
+        if (response is Response.Success) {
+            val transactionModelList = response.data.transactionRequestsList
+                .map {
+                    TransactionRequestModel(
+                        it.id,
+                        it.type,
+                        it.from.bankId,
+                        it.from.accountId,
+                        it.details.to.bankId,
+                        it.details.to.accountId,
+                        it.details.value.currency,
+                        it.details.value.amount,
+                        it.details.description
+                    )
+                }
+            fetchTransactionStateLiveData.postValue(
+                SuccessFetchTransactionState(
+                    transactionModelList
+                )
+            )
+        } else if (response is Response.Error) {
+            fetchTransactionStateLiveData.postValue(ErrorFetchTransactionState(response.message))
+        }
+    }
 
     fun createTransactionRequest(
         sourceBankId: String,
@@ -38,7 +82,7 @@ class CreateTransactionRequestViewModel : BaseViewModel() {
     ) {
         val request =
             CreateTransactionRequestRequest(
-                diskDataSource.getUserModel()!!.token!!,
+                diskDataSource.getUserModel()!!.token,
                 sourceBankId,
                 sourceAccountId,
                 destinationBankId,

@@ -104,7 +104,7 @@ class AccountViewModel : BaseViewModel() {
         diskDataSource.saveUserModel(userModel)
         accountStateLiveData.postValue(
             SuccessAccountState(
-                userModel.accounts!!,
+                userModel.accounts,
                 true
             )
         )

@@ -64,17 +64,18 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/btnPay"
+                android:id="@+id/tv_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
-                android:text="Pay"
+                android:text="Requests"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
-                android:textSize="30sp"
+                android:textSize="22sp"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/headlayout" />
@@ -83,6 +84,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
+            android:id="@+id/layout_transaction_summary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -114,6 +116,12 @@
 
         </LinearLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_general"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/topBar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

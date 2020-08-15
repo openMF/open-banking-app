@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="org.mifos.openbanking.utils.UtilsKt" />
+
+        <variable
+            name="request"
+            type="org.mifos.openbanking.viewModel.model.TransactionRequestModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:paddingTop="5dp">
+
+        <ImageView
+            android:id="@+id/imv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/mifos_logo"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/tv_id"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_id" />
+
+        <TextView
+            android:id="@+id/tv_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="@font/roboto_light"
+            android:text="@{UtilsKt.formatTransactionRequestId(request.id)}"
+            android:textColor="@color/colorGreen"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toRightOf="@id/imv_type"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@{UtilsKt.formatBalance(request.amount, true)}"
+            android:textColor="@color/grey"
+            android:textSize="22sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_6dp"
+            android:backgroundTint="@color/colorPrimaryLight"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingLeft="5dp"
+            android:paddingTop="3dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="3dp"
+            android:textColor="@color/colorPrimaryMedium"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="@id/tv_id"
+            app:layout_constraintTop_toBottomOf="@id/tv_id" />
+
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:text="@{request.description}"
+            android:textColor="@color/lightGrey"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="@id/tv_id"
+            app:layout_constraintTop_toBottomOf="@id/tv_account" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/colorPrimaryLight"
+            app:layout_constraintTop_toBottomOf="@id/tv_description" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

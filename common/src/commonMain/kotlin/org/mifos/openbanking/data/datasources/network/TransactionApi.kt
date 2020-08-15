@@ -7,15 +7,12 @@ import io.ktor.client.request.headers
 import io.ktor.client.request.post
 import io.ktor.http.ContentType
 import io.ktor.http.content.TextContent
-import kotlinx.serialization.builtins.list
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonArray
 import org.mifos.openbanking.base.Response
 import org.mifos.openbanking.domain.usecase.createTransactionRequest.CreateTransactionRequestRequest
 import org.mifos.openbanking.domain.usecase.createTransactionRequest.CreateTransactionRequestResponse
 import org.mifos.openbanking.domain.usecase.fetchTransactionRequests.FetchTransactionRequestsRequest
 import org.mifos.openbanking.domain.usecase.fetchTransactionRequests.FetchTransactionRequestsResponse
-import org.mifos.openbanking.domain.usecase.fetchTransactionRequests.TransactionRequest
 
 class TransactionApi {
 

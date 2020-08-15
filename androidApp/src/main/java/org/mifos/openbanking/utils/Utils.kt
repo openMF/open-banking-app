@@ -16,8 +16,19 @@ private val fmt = DecimalFormat.getInstance(Locale("en", "US"))
 fun formatBalance(balance: Double, withCurrencySymbol: Boolean = false): String? {
     val formatted = fmt.format(balance)
     return if (withCurrencySymbol) {
-        "£ $formatted"
+        "£$formatted"
     } else {
         formatted
+    }
+}
+
+fun formatTransactionRequestId(requestId: String): String {
+    return try {
+        requestId.substring(0, 4) + "xxxxx" + requestId.substring(
+            requestId.lastIndex - 2,
+            requestId.lastIndex
+        )
+    } catch (exp: Exception) {
+        requestId
     }
 }

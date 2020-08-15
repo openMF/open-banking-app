@@ -3,12 +3,20 @@ package org.mifos.openbanking.viewModel.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-class UserModel(
-    var token: String? = null,
-    var username: String? = null,
-    var banksConnected: Set<String> = emptySet(),
-    var accounts: List<AccountModel>? = null
-)
+class UserModel {
+    var token: String
+    var username: String
+    lateinit var banksConnected: Set<String>
+    lateinit var accounts: List<AccountModel>
+
+    constructor(
+        token: String,
+        username: String
+    ) {
+        this.token = token
+        this.username = username
+    }
+}
 
 @Serializable
 class AccountModel(

@@ -22,7 +22,7 @@ import org.mifos.openbanking.viewModel.transaction.*
 class TransferFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentTransferBinding
-    private lateinit var createTransactionRequestViewModel: CreateTransactionRequestViewModel
+    private lateinit var transactionViewModel: TransactionViewModel
     private lateinit var account: AccountModel
 
     companion object {
@@ -43,9 +43,9 @@ class TransferFragment : BottomSheetDialogFragment() {
 
         initBinding()
 
-        createTransactionRequestViewModel =
-            ViewModelProviders.of(this).get(CreateTransactionRequestViewModel::class.java)
-        val supportedBanks = createTransactionRequestViewModel.getSupportedBanks()
+        transactionViewModel =
+            ViewModelProviders.of(this).get(TransactionViewModel::class.java)
+        val supportedBanks = transactionViewModel.getSupportedBanks()
         val bankNames = supportedBanks.map { it.shortName }.toTypedArray()
         val adapter: ArrayAdapter<String?> = ArrayAdapter(
             requireContext(), android.R.layout.simple_dropdown_item_1line, bankNames
@@ -58,15 +58,15 @@ class TransferFragment : BottomSheetDialogFragment() {
 
     fun onProceedClicked(view: View) {
         binding.shimmerProceed.showShimmer(true)
-        createTransactionRequestViewModel.createTransactionRequestStateLiveData.addObserver {
+        transactionViewModel.createTransactionRequestStateLiveData.addObserver {
             observeTransferState(
                 it
             )
         }
         val bankName = binding.etBank.text.toString()
-        val supportedBanks = createTransactionRequestViewModel.getSupportedBanks()
+        val supportedBanks = transactionViewModel.getSupportedBanks()
         val destinationBankId = supportedBanks.find { it.shortName == bankName }!!.id
-        createTransactionRequestViewModel.createTransactionRequest(
+        transactionViewModel.createTransactionRequest(
             account.bankId,
             account.accountId,
             destinationBankId,
