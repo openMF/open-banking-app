@@ -82,7 +82,7 @@ class TransactionViewModel : BaseViewModel() {
     ) {
         val request =
             CreateTransactionRequestRequest(
-                diskDataSource.getUserModel()!!.token,
+                diskDataSource.getUserModel().token,
                 sourceBankId,
                 sourceAccountId,
                 destinationBankId,

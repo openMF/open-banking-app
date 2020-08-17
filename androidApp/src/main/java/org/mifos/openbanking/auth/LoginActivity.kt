@@ -3,9 +3,9 @@ package org.mifos.openbanking.auth
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
 import org.mifos.openbanking.R
 import org.mifos.openbanking.databinding.ActivityLoginBinding
 import org.mifos.openbanking.navigation.NavigationActivity
@@ -18,7 +18,7 @@ import org.mifos.openbanking.viewModel.auth.*
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var authViewModel: AuthViewModel
+    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +36,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-        authViewModel = ViewModelProviders.of(this).get(AuthViewModel::class.java)
         App.supportedBanksLiveData.addObserver { state ->
             run {
                 when (state) {

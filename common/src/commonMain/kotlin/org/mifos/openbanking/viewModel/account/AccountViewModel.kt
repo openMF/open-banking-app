@@ -33,7 +33,7 @@ class AccountViewModel : BaseViewModel() {
     ) {
         val request =
             FetchAccountsRequest(
-                diskDataSource.getUserModel()!!.token
+                diskDataSource.getUserModel().token
             )
 
         val response = fetchAccountsUseCase.execute(request)
@@ -47,13 +47,13 @@ class AccountViewModel : BaseViewModel() {
                 accountModelList.add(
                     AccountModel(
                         account.accountId,
-                        supportedBanks!!.find { bank -> bank.id == account.bankId }!!.shortName!!,
+                        supportedBanks.find { bank -> bank.id == account.bankId }!!.shortName!!,
                         account.bankId
                     )
                 )
                 banksConnected.add(account.bankId)
             }
-            val userModel = diskDataSource.getUserModel()!!
+            val userModel = diskDataSource.getUserModel()
             userModel.accounts = accountModelList
             userModel.banksConnected = banksConnected
             diskDataSource.saveUserModel(userModel)
@@ -72,8 +72,8 @@ class AccountViewModel : BaseViewModel() {
         exceptionHandler,
         job
     ) {
-        val userModel = diskDataSource.getUserModel()!!
-        for (bankId in userModel.banksConnected) {
+        val userModel = diskDataSource.getUserModel()
+        for (bankId in userModel.banksConnected!!) {
             val response =
                 fetchBalancesUseCase.execute(
                     FetchBalancesRequest(
@@ -104,7 +104,7 @@ class AccountViewModel : BaseViewModel() {
         diskDataSource.saveUserModel(userModel)
         accountStateLiveData.postValue(
             SuccessAccountState(
-                userModel.accounts,
+                userModel.accounts!!,
                 true
             )
         )

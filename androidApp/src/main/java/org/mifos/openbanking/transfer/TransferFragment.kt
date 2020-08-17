@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -22,7 +22,7 @@ import org.mifos.openbanking.viewModel.transaction.*
 class TransferFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentTransferBinding
-    private lateinit var transactionViewModel: TransactionViewModel
+    private val transactionViewModel: TransactionViewModel by activityViewModels()
     private lateinit var account: AccountModel
 
     companion object {
@@ -43,8 +43,6 @@ class TransferFragment : BottomSheetDialogFragment() {
 
         initBinding()
 
-        transactionViewModel =
-            ViewModelProviders.of(this).get(TransactionViewModel::class.java)
         val supportedBanks = transactionViewModel.getSupportedBanks()
         val bankNames = supportedBanks.map { it.shortName }.toTypedArray()
         val adapter: ArrayAdapter<String?> = ArrayAdapter(

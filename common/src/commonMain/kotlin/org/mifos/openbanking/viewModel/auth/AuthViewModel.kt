@@ -47,7 +47,7 @@ class AuthViewModel : BaseViewModel() {
             val response = loginClientUseCase.execute(request)
 
             if (response is Response.Success) {
-                val userModel = UserModel(username, response.data.token)
+                val userModel = UserModel(response.data.token, username)
                 diskDataSource.saveUserModel(userModel)
                 authStateLiveData.postValue(SuccessAuthState)
             } else if (response is Response.Error) {

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.mifos.openbanking.R
 import org.mifos.openbanking.databinding.FragmentTransactionsBinding
@@ -17,7 +17,7 @@ class TransactionsFragment : Fragment() {
 
     private lateinit var transactionRequestsAdapter: TransactionRequestsAdapter
     private lateinit var binding: FragmentTransactionsBinding
-    private lateinit var transactionViewModel: TransactionViewModel
+    private val transactionViewModel: TransactionViewModel by activityViewModels()
 
     companion object {
         const val bankIdKey = "bankId"
@@ -38,9 +38,6 @@ class TransactionsFragment : Fragment() {
         )
         binding.lifecycleOwner = this
 
-        transactionViewModel =
-            ViewModelProviders.of(this).get(TransactionViewModel::class.java)
-
         if (arguments != null) {
             binding.tvSubtitle.visibility = View.VISIBLE
 
@@ -50,6 +47,12 @@ class TransactionsFragment : Fragment() {
             binding.tvAccount.visibility = View.VISIBLE
 
             binding.layoutTransactionSummary.visibility = View.GONE
+
+            binding.rvGeneral.layoutManager = LinearLayoutManager(context)
+            binding.rvGeneral.setHasFixedSize(false)
+            transactionRequestsAdapter = TransactionRequestsAdapter()
+            binding.rvGeneral.adapter = transactionRequestsAdapter
+
             transactionViewModel.fetchTransactionStateLiveData.addObserver {
                 observeFetchTransactionsState(
                     it
@@ -59,11 +62,6 @@ class TransactionsFragment : Fragment() {
                 bankId,
                 accountId
             )
-
-            binding.rvGeneral.layoutManager = LinearLayoutManager(context)
-            binding.rvGeneral.setHasFixedSize(false)
-            transactionRequestsAdapter = TransactionRequestsAdapter()
-            binding.rvGeneral.adapter = transactionRequestsAdapter
         }
 
         return binding.root
@@ -75,6 +73,8 @@ class TransactionsFragment : Fragment() {
                 transactionRequestsAdapter.setTransactionRequests(state.transactionRequestModelList)
                 if (state.transactionRequestModelList.isEmpty()) {
                     binding.tvNoRequests.visibility = View.VISIBLE
+                } else {
+                    binding.tvNoRequests.visibility = View.GONE
                 }
             }
 

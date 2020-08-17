@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
@@ -19,7 +19,7 @@ import org.mifos.openbanking.viewModel.account.*
 
 class AccountsFragment : Fragment() {
 
-    private lateinit var accountViewModel: AccountViewModel
+    private val accountViewModel: AccountViewModel by activityViewModels()
     private lateinit var binding: FragmentAccountsBinding
     private lateinit var accountsAdapter: AccountsAdapter
 
@@ -51,7 +51,6 @@ class AccountsFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        accountViewModel = ViewModelProviders.of(this).get(AccountViewModel::class.java)
         accountViewModel.accountStateLiveData.addObserver { observeAccountState(it) }
     }
 
