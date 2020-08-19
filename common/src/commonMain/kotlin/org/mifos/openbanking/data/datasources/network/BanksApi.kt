@@ -1,8 +1,8 @@
 package org.mifos.openbanking.data.datasources.network
 
-import io.ktor.client.HttpClient
-import io.ktor.client.features.ClientRequestException
-import io.ktor.client.request.get
+import io.ktor.client.*
+import io.ktor.client.features.*
+import io.ktor.client.request.*
 import kotlinx.serialization.builtins.list
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject

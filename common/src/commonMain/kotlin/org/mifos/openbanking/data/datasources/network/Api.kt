@@ -7,6 +7,8 @@ const val API_HOST = "https://apisandbox.openbankproject.com/"
 const val DIRECT_AUTHENTICATION_PATH = "my/logins/direct"
 const val ACCOUNTS_PATH = "obp/v4.0.0/my/accounts"
 const val BANKS_PATH = "obp/v4.0.0/banks"
+const val CARDS_PATH = "obp/v4.0.0/cards"
+
 
 fun bankBalancePath(bankId: String): String {
     return "obp/v4.0.0/banks/$bankId/balances"

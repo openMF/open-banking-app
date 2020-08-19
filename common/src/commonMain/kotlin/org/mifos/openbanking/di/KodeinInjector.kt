@@ -8,16 +8,14 @@ import org.kodein.di.erased.provider
 import org.kodein.di.erased.singleton
 import org.mifos.openbanking.ApplicationDispatcher
 import org.mifos.openbanking.data.datasources.disk.DiskDataSource
-import org.mifos.openbanking.data.datasources.network.BanksApi
-import org.mifos.openbanking.data.datasources.network.ClientApi
-import org.mifos.openbanking.data.datasources.network.NetworkDataSource
-import org.mifos.openbanking.data.datasources.network.TransactionApi
+import org.mifos.openbanking.data.datasources.network.*
 import org.mifos.openbanking.data.repository.OpenBankingRepository
 import org.mifos.openbanking.domain.usecase.createClient.CreateClientUseCase
 import org.mifos.openbanking.domain.usecase.createTransactionRequest.CreateTransactionRequestUseCase
 import org.mifos.openbanking.domain.usecase.fetchAccounts.FetchAccountsUseCase
 import org.mifos.openbanking.domain.usecase.fetchBalances.FetchBalancesUseCase
 import org.mifos.openbanking.domain.usecase.fetchBanks.FetchBanksUseCase
+import org.mifos.openbanking.domain.usecase.fetchCards.FetchCardsUseCase
 import org.mifos.openbanking.domain.usecase.fetchTransactionRequests.FetchTransactionRequestsUseCase
 import org.mifos.openbanking.domain.usecase.loginClient.LoginClientUseCase
 import kotlin.coroutines.CoroutineContext
@@ -66,6 +64,11 @@ val KodeinInjector = Kodein {
             instance()
         )
     }
+    bind<FetchCardsUseCase>() with singleton {
+        FetchCardsUseCase(
+            instance()
+        )
+    }
 
     /**
      * REPOSITORIES
@@ -83,6 +86,7 @@ val KodeinInjector = Kodein {
         NetworkDataSource(
             instance(),
             instance(),
+            instance(),
             instance()
         )
     }
@@ -96,5 +100,6 @@ val KodeinInjector = Kodein {
     bind<ClientApi>() with provider { ClientApi() }
     bind<BanksApi>() with provider { BanksApi() }
     bind<TransactionApi>() with provider { TransactionApi() }
+    bind<CardApi>() with provider { CardApi() }
 
 }
