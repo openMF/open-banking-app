@@ -10,6 +10,10 @@ const val BANKS_PATH = "obp/v4.0.0/banks"
 const val CARDS_PATH = "obp/v4.0.0/cards"
 
 
+fun fetchTransactionByIdPath(bankId: String, accountId: String, transactionId: String): String {
+    return "/obp/v4.0.0/banks/$bankId/accounts/$accountId/owner/transactions/$transactionId/transaction"
+}
+
 fun bankBalancePath(bankId: String): String {
     return "obp/v4.0.0/banks/$bankId/balances"
 }

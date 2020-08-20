@@ -9,6 +9,9 @@ import kotlinx.serialization.json.Json
 import org.mifos.openbanking.base.Response
 import org.mifos.openbanking.domain.usecase.createTransactionRequest.CreateTransactionRequestRequest
 import org.mifos.openbanking.domain.usecase.createTransactionRequest.CreateTransactionRequestResponse
+import org.mifos.openbanking.domain.usecase.fetchTransactionById.FetchTransactionByIdRequest
+import org.mifos.openbanking.domain.usecase.fetchTransactionById.FetchTransactionByIdResponse
+import org.mifos.openbanking.domain.usecase.fetchTransactionById.Transaction
 import org.mifos.openbanking.domain.usecase.fetchTransactionRequests.FetchTransactionRequestsRequest
 import org.mifos.openbanking.domain.usecase.fetchTransactionRequests.FetchTransactionRequestsResponse
 
@@ -68,6 +71,31 @@ class TransactionApi {
             val transactionRequestsList =
                 Json.nonstrict.parse(FetchTransactionRequestsResponse.serializer(), response)
             return Response.Success(transactionRequestsList)
+
+        } catch (exp: ClientRequestException) {
+            return Response.Error(exp)
+        } catch (exp: Exception) {
+            return Response.Error(exp)
+        }
+    }
+
+    suspend fun fetchTransactionById(request: FetchTransactionByIdRequest): Response<FetchTransactionByIdResponse> {
+        try {
+            val response = client.get<String>(
+                API_HOST + fetchTransactionByIdPath(
+                    request.bankId,
+                    request.accountId,
+                    request.transactionId
+                )
+            ) {
+                headers {
+                    append("Authorization", "DirectLogin token=${request.token}")
+                }
+            }
+
+            val transaction =
+                Json.nonstrict.parse(Transaction.serializer(), response)
+            return Response.Success(FetchTransactionByIdResponse(transaction))
 
         } catch (exp: ClientRequestException) {
             return Response.Error(exp)

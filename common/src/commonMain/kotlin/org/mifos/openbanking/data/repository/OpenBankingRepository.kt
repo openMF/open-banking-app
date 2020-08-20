@@ -14,6 +14,8 @@ import org.mifos.openbanking.domain.usecase.fetchBanks.FetchBanksRequest
 import org.mifos.openbanking.domain.usecase.fetchBanks.FetchBanksResponse
 import org.mifos.openbanking.domain.usecase.fetchCards.FetchCardsRequest
 import org.mifos.openbanking.domain.usecase.fetchCards.FetchCardsResponse
+import org.mifos.openbanking.domain.usecase.fetchTransactionById.FetchTransactionByIdRequest
+import org.mifos.openbanking.domain.usecase.fetchTransactionById.FetchTransactionByIdResponse
 import org.mifos.openbanking.domain.usecase.fetchTransactionRequests.FetchTransactionRequestsRequest
 import org.mifos.openbanking.domain.usecase.fetchTransactionRequests.FetchTransactionRequestsResponse
 import org.mifos.openbanking.domain.usecase.loginClient.LoginClientRequest
@@ -52,9 +54,12 @@ class OpenBankingRepository(
         return networkDataSource.getTransactionApi().fetchTransactionRequests(request)
     }
 
+    suspend fun fetchTransactionById(request: FetchTransactionByIdRequest): Response<FetchTransactionByIdResponse> {
+        return networkDataSource.getTransactionApi().fetchTransactionById(request)
+    }
+
     suspend fun fetchCards(request: FetchCardsRequest): Response<FetchCardsResponse> {
         return networkDataSource.getCardApi().fetchCards(request)
     }
-
 
 }
