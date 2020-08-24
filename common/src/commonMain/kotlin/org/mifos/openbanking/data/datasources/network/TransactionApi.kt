@@ -14,6 +14,8 @@ import org.mifos.openbanking.domain.usecase.fetchTransactionById.FetchTransactio
 import org.mifos.openbanking.domain.usecase.fetchTransactionById.Transaction
 import org.mifos.openbanking.domain.usecase.fetchTransactionRequests.FetchTransactionRequestsRequest
 import org.mifos.openbanking.domain.usecase.fetchTransactionRequests.FetchTransactionRequestsResponse
+import org.mifos.openbanking.domain.usecase.fetchTransactions.FetchTransactionsRequest
+import org.mifos.openbanking.domain.usecase.fetchTransactions.FetchTransactionsResponse
 
 class TransactionApi {
 
@@ -96,6 +98,30 @@ class TransactionApi {
             val transaction =
                 Json.nonstrict.parse(Transaction.serializer(), response)
             return Response.Success(FetchTransactionByIdResponse(transaction))
+
+        } catch (exp: ClientRequestException) {
+            return Response.Error(exp)
+        } catch (exp: Exception) {
+            return Response.Error(exp)
+        }
+    }
+
+    suspend fun fetchTransactions(request: FetchTransactionsRequest): Response<FetchTransactionsResponse> {
+        try {
+            val response = client.get<String>(
+                API_HOST + fetchTransactionsPath(
+                    request.bankId,
+                    request.accountId
+                )
+            ) {
+                headers {
+                    append("Authorization", "DirectLogin token=${request.token}")
+                }
+            }
+
+            val fetchTransactionsResponse =
+                Json.nonstrict.parse(FetchTransactionsResponse.serializer(), response)
+            return Response.Success(fetchTransactionsResponse)
 
         } catch (exp: ClientRequestException) {
             return Response.Error(exp)
