@@ -111,7 +111,12 @@ class TransactionApi {
             val response = client.get<String>(
                 API_HOST + fetchTransactionsPath(
                     request.bankId,
-                    request.accountId
+                    request.accountId,
+                    request.sort,
+                    request.limit,
+                    request.offset,
+                    request.fromDate,
+                    request.toDate
                 )
             ) {
                 headers {
