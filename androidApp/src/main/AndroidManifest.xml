@@ -17,6 +17,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".auth.LoginActivity"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

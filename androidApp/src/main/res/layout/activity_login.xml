@@ -50,7 +50,6 @@
                 android:paddingRight="15dp"
                 android:paddingBottom="10dp"
                 android:singleLine="true"
-                android:text="@string/demo_username"
                 android:textColor="@color/grey"
                 android:textSize="22sp" />
 
@@ -68,7 +67,6 @@
                 android:paddingRight="15dp"
                 android:paddingBottom="10dp"
                 android:singleLine="true"
-                android:text="@string/demo_password"
                 android:textColor="@color/grey"
                 android:textSize="22sp" />
 
