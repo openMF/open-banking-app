@@ -69,7 +69,6 @@
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/account_id"
                 android:inputType="text"
-                android:text="hsbc_ankur"
                 android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,7 +87,6 @@
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/bank_name"
                 android:inputType="text"
-                android:text="HSBC Test"
                 android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -107,7 +105,6 @@
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/amount"
                 android:inputType="numberDecimal"
-                android:text="1"
                 android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -124,7 +121,6 @@
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/description"
                 android:inputType="text"
-                android:text="Paid via app"
                 android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
