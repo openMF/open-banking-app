@@ -31,9 +31,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
         kotlinOptions {
             jvmTarget = "1.8"
+            freeCompilerArgs += ["-Xskip-prerelease-check"]
         }
     }
     configurations {
@@ -74,13 +75,14 @@ kotlin {
             api 'org.jetbrains.kotlin:kotlin-stdlib-common'
 
             // COROUTINES
-            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutine_version"
+            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutine_core_version"
 
             // MOKO - MVVM
             implementation "dev.icerock.moko:mvvm:$moko_mvvm_version"
 
             // SERIALIZATION
-            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serializer_version"
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serializer_core_version"
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$serializer_json_version"
 
             // KODE IN
             implementation "org.kodein.di:kodein-di-core:$kodeinVersion"
@@ -89,9 +91,6 @@ kotlin {
             // KTOR
             implementation "io.ktor:ktor-client-core:$ktor_version"
             implementation "io.ktor:ktor-client-auth-native:$ktor_version"
-
-            // Preferences
-            implementation "com.github.florent37:multiplatform-preferences:$preferences_version"
         }
 
         androidMain.dependencies {
@@ -105,16 +104,13 @@ kotlin {
             implementation "androidx.lifecycle:lifecycle-extensions:$androidx_lifecycle_version"
 
             // SERIALIZATION
-            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serializer_version"
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serializer_core_version"
 
             // KTOR
             implementation "io.ktor:ktor-client-android:$ktor_version"
 
             // SQL Delight
             implementation "com.squareup.sqldelight:android-driver:$sql_delight_version"
-
-            // Preferences
-            implementation "com.github.florent37:multiplatform-preferences-android:$preferences_version"
         }
 
         iosMain.dependencies {
@@ -131,9 +127,6 @@ kotlin {
 
             // SQL Delight
             implementation "com.squareup.sqldelight:native-driver:$sql_delight_version"
-
-            // Preferences
-            implementation "com.github.florent37:multiplatform-preferences-ios:$preferences_version"
         }
 
         commonTest.dependencies {
