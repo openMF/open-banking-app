@@ -1,9 +1,9 @@
 package org.mifos.openbanking.data.datasources.network
 
-import io.ktor.client.*
-import io.ktor.client.features.*
-import io.ktor.client.request.*
-import kotlinx.serialization.builtins.list
+import io.ktor.client.HttpClient
+import io.ktor.client.features.ClientRequestException
+import io.ktor.client.request.get
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import org.mifos.openbanking.base.Response
@@ -19,8 +19,9 @@ class BanksApi {
         return try {
             val response = client.get<String>(API_HOST + BANKS_PATH)
 
-            val responseBanks = (Json.parseJson(response) as JsonObject)["banks"].toString()
-            val bankList = Json.nonstrict.parse(Bank.serializer().list, responseBanks)
+            val responseBanks = (Json.parseToJsonElement(response) as JsonObject)["banks"].toString()
+            val bankList =
+                Json.decodeFromString(ListSerializer(Bank.serializer()), responseBanks)
 
             Response.Success(
                 FetchBanksResponse(

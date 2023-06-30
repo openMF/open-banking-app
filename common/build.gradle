@@ -4,11 +4,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.squareup.sqldelight'
 
 android {
-    compileSdkVersion(29)
+    compileSdkVersion(33)
 
     defaultConfig {
         minSdkVersion(21)
-        targetSdkVersion(29)
+        targetSdkVersion(33)
     }
 
     // By default the android gradle plugin expects to find the kotlin source files in
@@ -81,7 +81,9 @@ kotlin {
             implementation "dev.icerock.moko:mvvm:$moko_mvvm_version"
 
             // SERIALIZATION
-            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serializer_core_version"
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serializer_core_version"
+
+            // SERIALIZATION - JSON Format
             implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$serializer_json_version"
 
             // KODE IN
@@ -120,7 +122,7 @@ kotlin {
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$coroutine_version"
 
             // SERIALIZATION
-            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$serializer_version"
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$serializer_native_version"
 
             // KTOR
             implementation "io.ktor:ktor-client-ios:$ktor_version"
@@ -133,6 +135,9 @@ kotlin {
             implementation kotlin('test-common')
             implementation kotlin('test-annotations-common')
             implementation "io.mockk:mockk:$mockk_version"
+            implementation "junit:junit:4.13.2"
+            implementation 'org.jetbrains.kotlin:kotlin-test'
+            implementation 'org.jetbrains.kotlin:kotlin-test-junit'
         }
     }
 }
