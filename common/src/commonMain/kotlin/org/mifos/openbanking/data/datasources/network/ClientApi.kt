@@ -1,13 +1,16 @@
 package org.mifos.openbanking.data.datasources.network
 
-import io.ktor.client.*
-import io.ktor.client.features.*
-import io.ktor.client.request.*
-import kotlinx.serialization.builtins.list
+import io.ktor.client.HttpClient
+import io.ktor.client.features.ClientRequestException
+import io.ktor.client.request.get
+import io.ktor.client.request.headers
+import io.ktor.client.request.post
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.content
+import kotlinx.serialization.json.double
+import kotlinx.serialization.json.jsonPrimitive
 import org.mifos.openbanking.base.Response
 import org.mifos.openbanking.domain.usecase.createClient.CreateClientResponse
 import org.mifos.openbanking.domain.usecase.fetchAccounts.Account
@@ -43,7 +46,7 @@ class ClientApi {
                 }
             }
 
-            val loginClientResponse = Json.parse(LoginClientResponse.serializer(), response)
+            val loginClientResponse = Json.decodeFromString(LoginClientResponse.serializer(), response)
             return Response.Success(loginClientResponse)
 
         } catch (exp: ClientRequestException) {
@@ -61,9 +64,9 @@ class ClientApi {
                 }
             }
 
-            val responseJson = Json.parseJson(response)
+            val responseJson = Json.parseToJsonElement(response)
             val responseAccounts = (responseJson as Map<String, JsonArray>)["accounts"].toString()
-            val accounts = Json.nonstrict.parse(Account.serializer().list, responseAccounts)
+            val accounts = Json.decodeFromString(ListSerializer(Account.serializer()), responseAccounts)
             return Response.Success(
                 FetchAccountsResponse(
                     accounts
@@ -91,13 +94,13 @@ class ClientApi {
 
             val accountBalances: MutableList<AccountBalance> = mutableListOf()
 
-            val accounts = (Json.parseJson(response) as JsonObject)["accounts"] as JsonArray
+            val accounts = (Json.parseToJsonElement(response) as JsonObject)["accounts"] as JsonArray
             for (account in accounts) {
                 account as JsonObject
-                val accountId = account["id"]!!.content
+                val accountId = account["id"]!!.jsonPrimitive.content
                 val balance = account["balance"] as JsonObject
-                val currency = balance["currency"]!!.content
-                val amount = balance["amount"]!!.primitive.double
+                val currency = balance["currency"]!!.jsonPrimitive.content
+                val amount = balance["amount"]!!.jsonPrimitive.double
 
                 accountBalances.add(
                     AccountBalance(

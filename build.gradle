@@ -1,22 +1,22 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.3.72'
-    ext.sql_delight_version = "1.4.0"
+    ext.kotlin_version = '1.7.20'
+    ext.sql_delight_version = "1.5.4"
     repositories {
         google()
         jcenter()
 
 
         mavenCentral()
-        maven { url "https://dl.bintray.com/kodein-framework/Kodein-DI/org/kodein/di/" }
+        maven { url "https://repo1.maven.org/maven2/org/kodein/di/" }
 
     }
     dependencies {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
 
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath "com.android.tools.build:gradle:7.3.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
         classpath "com.squareup.sqldelight:gradle-plugin:$sql_delight_version"
@@ -28,22 +28,23 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
 
-
-        maven { url = uri("https://dl.bintray.com/icerockdev/moko") }
-        maven { url "https://dl.bintray.com/florent37/maven" }
-        maven { url "https://dl.bintray.com/kodein-framework/Kodein-DI" }
+        maven { url = uri("https://repo1.maven.org/maven2/dev/icerock/moko") }
+        maven { url = uri("https://repo1.maven.org/maven2/org/kodein/di") }
+        maven { url = uri("https://repo1.maven.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-core") }
     }
 }
 
 ext {
-    coroutine_version = "1.3.2"
-    serializer_version = "0.20.0"
+    coroutine_version = "1.3.8"
+    serializer_core_version = "1.0-M1-1.4.0-rc"
+    serializer_native_version = "0.20.0-1.4-M1-release-99"
+    serializer_json_version = "1.5.1"
     ktor_version = "1.3.2"
     kodeinVersion = "6.5.3"
-    moko_mvvm_version = "0.6.0"
+    moko_mvvm_version = "0.10.0"
     mockk_version = "1.9.3"
-    preferences_version = "1.0.0"
 }
 
 task clean(type: Delete) {

@@ -71,7 +71,7 @@ class TransactionApi {
             }
 
             val transactionRequestsList =
-                Json.nonstrict.parse(FetchTransactionRequestsResponse.serializer(), response)
+                Json.decodeFromString(FetchTransactionRequestsResponse.serializer(), response)
             return Response.Success(transactionRequestsList)
 
         } catch (exp: ClientRequestException) {
@@ -96,7 +96,7 @@ class TransactionApi {
             }
 
             val transaction =
-                Json.nonstrict.parse(Transaction.serializer(), response)
+                Json.decodeFromString(Transaction.serializer(), response)
             return Response.Success(FetchTransactionByIdResponse(transaction))
 
         } catch (exp: ClientRequestException) {
@@ -125,7 +125,7 @@ class TransactionApi {
             }
 
             val fetchTransactionsResponse =
-                Json.nonstrict.parse(FetchTransactionsResponse.serializer(), response)
+                Json.decodeFromString(FetchTransactionsResponse.serializer(), response)
             return Response.Success(fetchTransactionsResponse)
 
         } catch (exp: ClientRequestException) {

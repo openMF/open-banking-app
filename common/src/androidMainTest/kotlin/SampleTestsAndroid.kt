@@ -1,8 +1,8 @@
 package org.mifos.openbanking.common
 
+import org.junit.Assert.assertTrue
+import org.junit.Test
 import org.mifos.openbanking.hello
-import kotlin.test.Test
-import kotlin.test.assertTrue
 
 class SampleTestsAndroid {
     @Test

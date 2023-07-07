@@ -22,7 +22,7 @@ class CardApi {
                 }
             }
 
-            val fetchCardsResponse = Json.nonstrict.parse(FetchCardsResponse.serializer(), response)
+            val fetchCardsResponse = Json.decodeFromString(FetchCardsResponse.serializer(), response)
             return Response.Success(fetchCardsResponse)
 
         } catch (exp: ClientRequestException) {
