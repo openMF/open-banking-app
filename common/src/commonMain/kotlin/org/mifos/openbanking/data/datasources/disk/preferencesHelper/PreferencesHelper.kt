@@ -35,78 +35,81 @@ class PreferencesHelper {
     }
 }
 
-class Preferences(name: String? = null) {
+class Preferences(private val name: String? = null) {
+
+    private val preferences = mutableMapOf<String, Any>()
 
     fun setInt(key: String, value: Int) {
-        // Implementation
+        preferences[key] = value
     }
 
     fun getInt(key: String, defaultValue: Int): Int {
-        return TODO("Provide the return value")
+        return preferences[key] as? Int? ?: defaultValue
     }
 
     fun getInt(key: String): Int? {
-        return TODO("Provide the return value")
+        return preferences[key] as? Int
     }
 
     fun setFloat(key: String, value: Float) {
-        // Implementation
+        preferences[key] = value
     }
 
     fun getFloat(key: String, defaultValue: Float): Float {
-        return TODO("Provide the return value")
+        return preferences[key] as? Float? ?: defaultValue
     }
 
     fun getFloat(key: String): Float? {
-        return TODO("Provide the return value")
+        return preferences[key] as? Float
     }
 
     fun setLong(key: String, value: Long) {
-        // Implementation
+        preferences[key] = value
     }
 
     fun getLong(key: String, defaultValue: Long): Long {
-        return TODO("Provide the return value")
+        return preferences[key] as? Long? ?: defaultValue
     }
 
     fun getLong(key: String): Long? {
-        return TODO("Provide the return value")
+        return preferences[key] as? Long
     }
 
     fun setString(key: String, value: String) {
-        // Implementation
+        preferences[key] = value
     }
 
     fun getString(key: String, defaultValue: String): String {
-        return TODO("Provide the return value")
+        return preferences[key] as? String? ?: defaultValue
     }
 
     fun getString(key: String): String? {
-        return TODO("Provide the return value")
+        return preferences[key] as? String
     }
 
     fun setBoolean(key: String, value: Boolean) {
-        // Implementation
+        preferences[key] = value
     }
 
     fun getBoolean(key: String, defaultValue: Boolean): Boolean {
-        return TODO("Provide the return value")
+        return preferences[key] as? Boolean? ?: defaultValue
     }
 
     fun getBoolean(key: String): Boolean? {
-        return TODO("Provide the return value")
+        return preferences[key] as? Boolean
     }
 
     fun remove(key: String) {
-        // Implementation
+        preferences.remove(key)
     }
 
     fun clear() {
-        // Implementation
+        preferences.clear()
     }
 
     fun hasKey(key: String): Boolean {
-        return TODO("Provide the return value")
+        return preferences.containsKey(key)
     }
 }
+
 

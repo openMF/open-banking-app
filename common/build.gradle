@@ -102,7 +102,7 @@ kotlin {
             // COROUTINES
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
 
-            // MOKO - MVVM
+            // ViewModel and LiveData
             implementation "androidx.lifecycle:lifecycle-extensions:$androidx_lifecycle_version"
 
             // SERIALIZATION
